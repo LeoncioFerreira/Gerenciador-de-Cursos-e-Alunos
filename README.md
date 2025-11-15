@@ -210,7 +210,7 @@ A seguir está a **UML textual** completa, conforme solicitado pelo professor:
 
 ---
 
-# 🔗 **Tabela Resumida de Relacionamentos**
+# 🔗 **Tabela Resumida deRelacionamentos**
 
 | De            | Tipo        | Para              | Descrição                                     |
 | ------------- | ----------- | ----------------- | --------------------------------------------- |
@@ -227,19 +227,21 @@ A seguir está a **UML textual** completa, conforme solicitado pelo professor:
 # 📁 **Estrutura Inicial do Projeto**
 
 ```
-gerenciador_de_cursos_e_alunos/
+Gerenciador-de-Cursos-e-Alunos/
 │
 ├── data/
 │   └── settings.json
 │
 ├── src/
-│   ├── pessoa.py
+│   ├── __init__.py
 │   ├── aluno.py
-│   ├── oferta.py
-│   ├── turma.py
+│   ├── configuracoes.py
 │   ├── curso.py
 │   ├── matricula.py
-│   └── configuracoes.py
+│   ├── oferta.py
+│   ├── pessoa.py
+│   └── turma.py
 │
+├── LICENSE
 └── README.md
-```
+
