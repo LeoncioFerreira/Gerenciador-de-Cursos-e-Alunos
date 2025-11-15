@@ -1,45 +1,245 @@
-# GERENCIADOR DE CURSOS E ALUNOS 🎓
+# Projeto 1 — Programação Orientada a Objetos  
+### Tema 6 — Gerenciador de Cursos e Alunos  
+## 👨‍💻 Autor
+| Nome | GitHub |
+|------|--------|
+| Leôncio Ferreira Flores Neto | [@LeoncioFerreira](https://github.com/LeoncioFerreira)|
+---
 
-## 📝 Descrição do Projeto e Objetivo
+# 📌 **Descrição do Projeto**
 
-Este projeto consiste no desenvolvimento de um **Sistema de Gerenciamento de Cursos, Turmas, Alunos e Matrículas**.
+Este projeto implementa um **Gerenciador de Cursos e Alunos**, atendendo ao **Tema 6** da disciplina de Programação Orientada a Objetos (UFCA).
 
-O foco principal é aplicar os conceitos de **Programação Orientada a Objetos (POO)**, como encapsulamento, herança, métodos especiais, e validações rigorosas entre classes.
+O sistema deverá gerenciar:
 
-### 🎯 Objetivo Principal
+* Cursos e pré-requisitos
+* Turmas e horários
+* Alunos e históricos
+* Matrículas com validações completas
+* Notas, frequência e situação acadêmica
+* Relatórios gerais
 
-O objetivo é gerenciar o fluxo acadêmico, incluindo:
-* Controle de **pré-requisitos** para cursos.
-* Detecção de **choque de horário** em matrículas.
-* Controle de **limite de vagas** e a situação da matrícula (Aprovado, Reprovado).
-* Cálculo do **CR (Coeficiente de Rendimento)**.
-* Emissão de **relatórios acadêmicos** (ex: taxa de aprovação, Top N alunos).
+O foco é aplicar:
 
-A persistência dos dados será feita de forma simples, utilizando **JSON ou SQLite**.
+* Herança
+* Encapsulamento
+* Métodos especiais
+* Validações
+* Regras de negócio
+* Persistência simples via JSON
+
+Este README contém a **modelagem da Semana 1**, incluindo a **UML textual** e a **estrutura inicial do projeto**.
 
 ---
 
-## 🏗️ Estrutura Planejada de Classes
+# 🎯 **Objetivo Geral**
 
-A modelagem do projeto seguirá a seguinte estrutura de classes, conforme os Requisitos Técnicos de POO:
-
-| Classe | Objetivo e Responsabilidade | Base/Relacionamento |
-| :--- | :--- | :--- |
-| `Pessoa` | Classe base para conter atributos comuns a indivíduos. | - (Base) |
-| `Aluno` | Representa o estudante. Possui **matrícula** e **histórico** acadêmico. Calcula o **CR**. | Herda de `Pessoa` |
-| `Oferta` | Classe base abstrata para conter atributos comuns a ofertas de disciplina/curso. | - (Base) |
-| `Turma` | Representa uma oferta específica de um `Curso` em um período/semestre. Controla **horários** e **vagas**. | Herda de `Oferta` |
-| `Curso` | Define a disciplina acadêmica: código, nome, carga horária, e lista de **pré-requisitos**. | - |
-| `Matricula` | Objeto de relacionamento que liga um **`Aluno`** a uma **`Turma`**. Armazena **notas**, **frequência** e **estado** (situação). | Relaciona `Aluno` e `Turma` |
-
-### 🛠️ Focos de POO
-
-* **Herança:** `Aluno` herda de `Pessoa`; `Turma` herda de `Oferta`.
-* **Encapsulamento:** Uso de `@property` para validar atributos como nota (0-10), frequência (0-100), CR ($\ge0$) e vagas ($\ge0$).
-* **Métodos Especiais:** Implementação mínima de 4 métodos, como:
-    * `Aluno.__lt__`: para ordenação por CR.
-    * `Turma.__len__`: retorna a ocupação (quantidade de matrículas ativas).
-    * `Curso.__str__`/`__repr__`: para resumos.
-    * `Matricula.__eq__`: para comparação única (aluno + turma).
+Construir uma arquitetura orientada a objetos clara, coesa e extensível, servindo de base para o desenvolvimento incremental das semanas seguintes.
 
 ---
+
+# 🧱 **Estrutura Planejada de Classes**
+
+A seguir está a **UML textual** completa, conforme solicitado pelo professor:
+
+> *“UML textual (classes, atributos, métodos principais, relacionamentos)”*
+
+---
+
+# 🧩 **UML TEXTUAL**
+
+---
+
+## **Classe: Pessoa**
+
+### **Atributos**
+
+* nome: str
+* email: str
+
+### **Métodos principais**
+
+* validar_email()
+* atualizar_dados(nome, email)
+* **str**()
+
+### **Relacionamentos**
+
+* **Superclasse de → Aluno**
+
+---
+
+## **Classe: Aluno (subclasse de Pessoa)**
+
+### **Atributos**
+
+* matricula: str
+* historico: list[Matricula]
+
+### **Métodos principais**
+
+* calcular_cr()
+* verificar_prerequisito_cumprido(curso)
+* checar_choque_horario(turma)
+* **lt**()
+
+### **Relacionamentos**
+
+* **Subclasse de → Pessoa**
+* 1:N com Matricula
+
+---
+
+## **Classe: Oferta**
+
+### **Atributos**
+
+* periodo_semestre: str
+* status: str
+
+### **Métodos principais**
+
+* abrir()
+* fechar()
+* **str**()
+
+### **Relacionamentos**
+
+* **Superclasse de → Turma**
+
+---
+
+## **Classe: Turma (subclasse de Oferta)**
+
+### **Atributos**
+
+* numero_turma: int
+* curso: Curso
+* periodo_semestre: str
+* dias_horarios: dict
+* vagas: int
+* status: str
+* matriculas: list[Matricula]
+
+### **Métodos principais**
+
+* abrir_turma()
+* fechar_turma()
+* tem_vaga()
+* verificar_choque_horario(aluno)
+* registrar_matricula(aluno)
+* calcular_taxa_aprovacao()
+* gerar_relatorios()
+* **len**()
+
+### **Relacionamentos**
+
+* **Subclasse de → Oferta**
+* 1:1 com Curso
+* 1:N com Matricula
+
+---
+
+## **Classe: Curso**
+
+### **Atributos**
+
+* codigo: str
+* nome: str
+* carga_horaria: int
+* lista_de_prerequisitos: list[str]
+* ementa: str
+
+### **Métodos principais**
+
+* validar_prerequisitos()
+* **str**()
+
+### **Relacionamentos**
+
+* 1:N com Turma
+
+---
+
+## **Classe: Matricula**
+
+### **Atributos**
+
+* aluno: Aluno
+* turma: Turma
+* nota: float
+* frequencia: float
+* situacao: str
+
+### **Métodos principais**
+
+* lancar_nota(valor)
+* lancar_frequencia(valor)
+* calcular_situacao(configuracoes)
+* trancar(data_atual, configuracoes)
+* **eq**()
+
+### **Relacionamentos**
+
+* N:1 com Aluno
+* N:1 com Turma
+* Associação bidirecional Aluno ↔ Turma
+
+---
+
+## **Classe: Configuracoes**
+
+### **Atributos**
+
+* nota_minima_aprovacao: float
+* frequencia_minima: float
+* data_limite_trancamento: date
+* max_turmas_por_aluno: int
+* top_n_alunos: int
+
+### **Métodos principais**
+
+* carregar()
+* salvar()
+* obter_parametro(chave)
+
+### **Relacionamentos**
+
+* Dependência com Matricula
+* Dependência com Turma
+
+---
+
+# 🔗 **Tabela Resumida de Relacionamentos**
+
+| De            | Tipo        | Para              | Descrição                                     |
+| ------------- | ----------- | ----------------- | --------------------------------------------- |
+| Pessoa        | Superclasse | Aluno             | Herança                                       |
+| Oferta        | Superclasse | Turma             | Herança                                       |
+| Curso         | 1:N         | Turma             | Curso pode ter diversas ofertas               |
+| Aluno         | 1:N         | Matricula         | Aluno pode estar matriculado em várias turmas |
+| Turma         | 1:N         | Matricula         | Turma pode ter muitos alunos                  |
+| Matricula     | Associação  | Aluno ↔ Turma     | Relação bidirecional                          |
+| Configurações | Dependência | Matricula / Turma | Regras globais                                |
+
+---
+
+# 📁 **Estrutura Inicial do Projeto**
+
+```
+gerenciador_de_cursos_e_alunos/
+│
+├── data/
+│   └── settings.json
+│
+├── src/
+│   ├── pessoa.py
+│   ├── aluno.py
+│   ├── oferta.py
+│   ├── turma.py
+│   ├── curso.py
+│   ├── matricula.py
+│   └── configuracoes.py
+│
+└── README.md
+```
