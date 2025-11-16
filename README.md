@@ -210,7 +210,7 @@ A seguir está a **UML textual** completa, conforme solicitado pelo professor:
 
 ---
 
-# 🔗 **Tabela Resumida deRelacionamentos**
+# 🔗 **Tabela Resumida de Relacionamentos**
 
 | De            | Tipo        | Para              | Descrição                                     |
 | ------------- | ----------- | ----------------- | --------------------------------------------- |
