@@ -108,7 +108,7 @@ A seguir, a UML textual contendo **classes, atributos, métodos e relacionamento
 
 ### Atributos
 
-* id_oferta: str
+* codigo_oferta: str
 * codigo_curso: str
 * semestre: str
 * dias_horarios: dict
