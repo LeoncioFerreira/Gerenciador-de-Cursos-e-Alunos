@@ -6,7 +6,5 @@ class Pessoa:
     Responsabilidades:
     - Armazenar informações comuns (nome, e-mail, etc.)
     - Servir como base para herança (extensibilidade)
-
-    Nesta etapa inicial, os atributos e métodos serão definidos posteriormente.
     """
     pass

@@ -1,4 +1,4 @@
-from src import Pessoa
+from .pessoa import Pessoa
 
 class  Aluno(Pessoa):
     """

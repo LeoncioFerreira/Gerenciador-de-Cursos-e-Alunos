@@ -1,3 +1,5 @@
+from .aluno import Aluno
+from .turma import Turma
 class Matricula:
     """
     Representa a relação entre um Aluno e uma Turma.

@@ -1,4 +1,4 @@
-from src import Oferta
+from .oferta import Oferta
 
 class Turma(Oferta):
     """
