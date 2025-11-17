@@ -1,191 +1,222 @@
-# Projeto 1 — Programação Orientada a Objetos  
-### Tema 6 — Gerenciador de Cursos e Alunos  
+# Projeto 1 — Programação Orientada a Objetos
+
+### Tema 6 — Gerenciador de Cursos e Alunos
 
 ## 👨‍💻 Autor
-| Nome | GitHub |
-|------|--------|
+
+| Nome                         | GitHub           |
+| ---------------------------- | ---------------- |
 | Leôncio Ferreira Flores Neto | [@LeoncioFerreira](https://github.com/LeoncioFerreira)|
+
 ---
+
 # 📌 Descrição do Projeto
 
-Este projeto implementa um **Gerenciador de Cursos e Alunos**, conforme o **Tema 6** da disciplina de Programação Orientada a Objetos (UFCA).
+Este projeto implementa um **Gerenciador de Cursos e Alunos**, conforme o Tema 6 da disciplina de **Programação Orientada a Objetos (UFCA)**.
 
 O sistema deverá contemplar:
 
-- Cursos e pré-requisitos  
-- Turmas (ofertas) com horários, vagas e status  
-- Alunos e históricos  
-- Matrículas com regras de pré-requisito, vagas e choque de horário  
-- Notas, frequência e situação acadêmica  
-- Relatórios gerais (taxa de aprovação, top N alunos, etc.)  
+* Cursos e pré-requisitos
+* Ofertas de disciplinas (turmas) com horários, vagas e status
+* Alunos e histórico acadêmico
+* Matrículas com validações de pré-requisitos, vagas e choque de horário
+* Lançamento de notas e frequência
+* Cálculo de situação acadêmica
+* Relatórios gerais (taxa de aprovação, top N alunos, etc.)
 
 Nesta primeira etapa (Semana 1), o foco é construir a **modelagem inicial**, incluindo:
-- UML textual  
-- Estrutura de pastas  
-- Classes vazias com docstrings de propósito  
+
+* UML textual
+* Estrutura de pastas do projeto
+* Classes vazias com docstrings de propósito
 
 ---
 
 # 🎯 Objetivo Geral
 
-Criar uma arquitetura orientada a objetos clara, modular e extensível, servindo de base para as entregas progressivas das próximas semanas.
+Criar uma arquitetura orientada a objetos clara, modular e extensível, servindo como base para as entregas progressivas das próximas semanas.
 
 ---
 
 # 🧩 UML TEXTUAL
 
-A seguir, a UML textual solicitada pelo professor, contendo **classes, atributos, métodos e relacionamentos**.
+A seguir, a UML textual contendo **classes, atributos, métodos e relacionamentos**.
 
 ---
 
 ## **Classe: Pessoa**
 
-### **Atributos**
-- nome: str  
-- email: str  
+### Atributos
 
-### **Métodos**
-- `__str__()`  
+* nome: str
+* email: str
 
-### **Relacionamentos**
-- Superclasse de → Aluno  
+### Métodos
+
+* `__str__()`
+
+### Relacionamentos
+
+* Superclasse de → Aluno
 
 ---
 
 ## **Classe: Aluno (subclasse de Pessoa)**
 
-### **Atributos**
-- matricula: str  
-- historico: list[Matricula]  
+### Atributos
 
-### **Métodos**
-- calcular_cr()  
-- verificar_prerequisito_cumprido(curso)  
-- `__lt__()`  
+* matricula: str
+* historico: list[Matricula]
 
-### **Relacionamentos**
-- Subclasse de → Pessoa  
-- 1:N com Matricula  
+### Métodos
 
----
+* calcular_cr()
+* verificar_prerequisito_cumprido(curso)
+* `__lt__()`
 
-## **Classe: Oferta**
+### Relacionamentos
 
-### **Atributos**
-- id_oferta: str  
-- periodo_semestre: str  
-- dias_horarios: dict  
-- vagas: int  
-- status: str  
-- local: str (opcional)
-
-### **Métodos**
-- abrir()  
-- fechar()  
-- `__str__()`  
-
-### **Relacionamentos**
-- Superclasse de → Turma  
-
----
-
-## **Classe: Turma (subclasse de Oferta)**
-
-### **Atributos**
-- numero_turma: int  
-- curso: Curso  
-- matriculas: list[Matricula]  
-
-### **Métodos**
-- tem_vaga()  
-- verificar_choque_horario(aluno)  
-- matricular(aluno)  
-- calcular_taxa_aprovacao()  
-- `__len__()`  
-
-### **Relacionamentos**
-- Subclasse de → Oferta  
-- 1:1 com Curso  
-- 1:N com Matricula  
+* Subclasse de → Pessoa
+* 1:N com Matricula
 
 ---
 
 ## **Classe: Curso**
 
-### **Atributos**
-- codigo: str  
-- nome: str  
-- carga_horaria: int  
-- prerequisitos: list[str]  
-- ementa: str (opcional)
+### Atributos
 
-### **Métodos**
-- validar_prerequisitos()  
-- `__str__()`  
+* codigo: str
+* nome: str
+* carga_horaria: int
+* prerequisitos: list[str]
+* ementa: str (opcional)
 
-### **Relacionamentos**
-- 1:N com Turma  
+### Métodos
+
+* validar_prerequisitos()
+* `__str__()`
+
+### Relacionamentos
+
+* 1:N com Oferta/Turma
+
+---
+
+## **Classe: Oferta**
+
+(Representa uma oferta de disciplina em um semestre – base para Turma)
+
+### Atributos
+
+* id_oferta: str
+* codigo_curso: str
+* semestre: str
+* dias_horarios: dict
+* vagas: int
+* status: str
+* local: str | None
+
+### Métodos
+
+* abrir()
+* fechar()
+* `__str__()`
+
+### Relacionamentos
+
+* Superclasse de → Turma
+* N:1 com Curso
+
+---
+
+## **Classe: Turma (subclasse de Oferta)**
+
+(Estende a oferta com comportamento e vínculos com alunos)
+
+### Atributos
+
+* curso: Curso
+* matriculas: list[Matricula]
+
+### Métodos
+
+* tem_vaga()
+* verificar_choque_horario(aluno)
+* matricular(aluno)
+* calcular_taxa_aprovacao()
+* `__len__()`
+
+### Relacionamentos
+
+* Subclasse de → Oferta
+* 1:N com Matricula
 
 ---
 
 ## **Classe: Matricula**
 
-### **Atributos**
-- aluno: Aluno  
-- turma: Turma  
-- nota: float  
-- frequencia: float  
-- situacao: str  
+### Atributos
 
-### **Métodos**
-- lancar_nota(valor)  
-- lancar_frequencia(valor)  
-- calcular_situacao(config)  
-- trancar(data_atual, config)  
-- `__eq__()`  
+* aluno: Aluno
+* turma: Turma
+* nota: float
+* frequencia: float
+* situacao: str
 
-### **Relacionamentos**
-- N:1 com Aluno  
-- N:1 com Turma  
-- Associação bidirecional Aluno ↔ Turma  
+### Métodos
+
+* lancar_nota(valor)
+* lancar_frequencia(valor)
+* calcular_situacao(config)
+* trancar(data_atual, config)
+* `__eq__()`
+
+### Relacionamentos
+
+* N:1 com Aluno
+* N:1 com Turma
+* Associação Aluno ↔ Turma
 
 ---
 
 ## **Classe: Configuracoes**
 
-### **Atributos**
-- nota_minima_aprovacao: float  
-- frequencia_minima: float  
-- data_limite_trancamento: date  
-- max_turmas_por_aluno: int  
-- top_n_alunos: int  
+### Atributos
 
-### **Métodos**
-- carregar()  
-- salvar()  
-- obter_parametro(chave)  
+* nota_minima_aprovacao: float
+* frequencia_minima: float
+* data_limite_trancamento: date
+* max_turmas_por_aluno: int
+* top_n_alunos: int
 
-### **Relacionamentos**
-- Dependência com Matricula  
-- Dependência com Turma  
+### Métodos
+
+* carregar()
+* salvar()
+* obter_parametro(chave)
+
+### Relacionamentos
+
+* Dependência com Matricula
+* Dependência com Turma
 
 ---
 
 # 🔗 Tabela Resumida de Relacionamentos
 
-| Classe Origem | Tipo de Relação | Classe Destino     | Descrição                                                                 |
-|---------------|------------------|----------------------|---------------------------------------------------------------------------|
-| Pessoa        | Superclasse      | Aluno               | Aluno herda atributos e comportamentos de Pessoa                         |
-| Oferta        | Superclasse      | Turma               | Turma é uma especialização de Oferta                                     |
-| Curso         | 1:N              | Turma               | Um Curso pode ter várias Turmas (ofertas)                                 |
-| Aluno         | 1:N              | Matricula           | Um Aluno pode ter várias Matrículas                                      |
-| Turma         | 1:N              | Matricula           | Uma Turma pode ter várias Matrículas                                     |
-| Matricula     | Associação N:N   | Aluno ↔ Turma       | Matricula conecta um Aluno a uma Turma                                   |
-| Configuracoes | Dependência      | Matricula           | Matrícula usa Configurações para determinar situações acadêmicas         |
-| Configuracoes | Dependência      | Turma               | Turma depende de Configurações para regras de matrícula e limite         |
+| Classe Origem | Tipo de Relação | Classe Destino  | Descrição                              |
+| ------------- | --------------- | --------------- | -------------------------------------- |
+| Pessoa        | Superclasse     | Aluno           | Aluno herda atributos e comportamentos |
+| Curso         | 1:N             | Oferta/Turma    | Um curso pode ter diversas ofertas     |
+| Oferta        | Superclasse     | Turma           | Turma é uma especialização da Oferta   |
+| Aluno         | 1:N             | Matricula       | Um aluno pode ter várias matrículas    |
+| Turma         | 1:N             | Matricula       | Uma turma pode ter várias matrículas   |
+| Matricula     | Associação      | Aluno ↔ Turma   | Relaciona aluno e turma                |
+| Configuracoes | Dependência     | Matricula/Turma | Regras acadêmicas                      |
 
 ---
-# 📁 **Estrutura Inicial do Projeto**
+
+# 📁 Estrutura inicial do projeto
 
 ```
 Gerenciador-de-Cursos-e-Alunos/
@@ -195,14 +226,14 @@ Gerenciador-de-Cursos-e-Alunos/
 │
 ├── src/
 │   ├── __init__.py
-│   ├── aluno.py
-│   ├── configuracoes.py
-│   ├── curso.py
-│   ├── matricula.py
-│   ├── oferta.py
 │   ├── pessoa.py
-│   └── turma.py
+│   ├── aluno.py
+│   ├── curso.py
+│   ├── oferta.py
+│   ├── turma.py
+│   ├── matricula.py
+│   └── configuracoes.py
 │
 ├── LICENSE
 └── README.md
-
+```
