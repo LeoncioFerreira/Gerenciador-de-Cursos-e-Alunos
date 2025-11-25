@@ -24,21 +24,35 @@ O sistema deverá contemplar:
 * Cálculo de situação acadêmica
 * Relatórios gerais (taxa de aprovação, top N alunos, etc.)
 
-Nesta primeira etapa (Semana 1), o foco é construir a **modelagem inicial**, incluindo:
+Na **Semana 2**, o foco é:
 
-* UML textual
-* Estrutura de pastas do projeto
-* Classes vazias com docstrings de propósito
-
----
-
-# 🎯 Objetivo Geral
-
-Criar uma arquitetura orientada a objetos clara, modular e extensível, servindo como base para as entregas progressivas das próximas semanas.
+✔ Implementar as classes fundamentais  
+✔ Usar herança e encapsulamento  
+✔ Criar validações robustas  
+✔ Implementar métodos especiais  
+✔ Desenvolver testes automatizados (pytest)
 
 ---
+
+# 🎯 Objetivos da Semana 2
+
+- Estruturar as classes centrais do sistema.  
+- Garantir o uso correto de **@property** para encapsulamento.  
+- Implementar métodos especiais obrigatórios:
+  - `__str__`
+  - `__len__`
+  - `__eq__`
+  - `__lt__`
+- Criar testes unitários básicos com pytest.  
+- Carregar configurações via JSON.  
+
+Todos os requisitos foram atendidos.
 
 # 🧩 UML TEXTUAL
+⚠️ Importante:
+Esta UML representa o *planejamento completo* do sistema, incluindo funcionalidades 
+que serão adicionadas nas próximas semanas (3, 4 e 5).
+Nem todos os métodos mostrados aqui fazem parte da implementação da Semana 2.
 
 A seguir, a UML textual contendo **classes, atributos, métodos e relacionamentos**.
 
@@ -226,14 +240,65 @@ Gerenciador-de-Cursos-e-Alunos/
 │
 ├── src/
 │   ├── __init__.py
-│   ├── pessoa.py
 │   ├── aluno.py
+│   ├── configuracoes.py
 │   ├── curso.py
-│   ├── oferta.py
-│   ├── turma.py
 │   ├── matricula.py
-│   └── configuracoes.py
+│   ├── oferta.py
+│   ├── pessoa.py
+│   └── turma.py
+│
+├── tests/
+│   ├── test_aluno.py
+│   ├── test_curso.py
+│   ├── test_matricula.py
+│   └── test_turma.py
 │
 ├── LICENSE
+├── pytest.ini
+├── requirements.txt
 └── README.md
+
+```
+## 🚀 Como Executar o Projeto
+
+A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes da Semana 2.
+
+---
+### 1️⃣ Clonar o repositório
+
+```bash
+git clone https://github.com/LeoncioFerreira/Gerenciador-de-Cursos-e-Alunos.git
+cd Gerenciador-de-Cursos-e-Alunos
+```
+### 2️⃣ Criar ambiente virtual (Opcional, mas recomendado)
+
+Isolar as dependências do projeto evita conflitos com outras bibliotecas instaladas no sistema.
+
+**Linux/MacOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+***Windows:***
+
+```PowerShell
+
+python -m venv venv
+venv\Scripts\activate
+```
+### 3️⃣ Instalar as dependências
+O projeto utiliza o pytest. Certifique-se de que o arquivo requirements.txt esteja na raiz do projeto e execute:
+
+```bash
+pip install -r requirements.txt
+```
+### 4️⃣ Executar os testes automatizados
+Para rodar todos os testes com saída detalhada:
+```bash
+pytest -v
+```
+Para parar no primeiro erro:
+```bash
+pytest --maxfail=1
 ```
