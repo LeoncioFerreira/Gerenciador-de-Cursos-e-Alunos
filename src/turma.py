@@ -2,15 +2,16 @@ from .oferta import Oferta
 from .curso import Curso # Importado para validação de tipo no setter
 class Turma(Oferta):
     """
-    Representa uma turma aberta para matrícula.
+Representa uma turma ofertada de um curso.
 
-    Responsabilidades:
-    - Controlar vagas, horários, estado (aberta/fechada)
-    - Manter lista de matrículas
-    - Implementar métodos especiais (__len__)
-    - Verificar choque de horário
+Responsabilidades:
+- Armazenar lista de matrículas
+- Verificar se há vagas disponíveis
+- Registrar novas matrículas
+- Expor quantidade de alunos através de __len__
 
-    Relaciona-se com Curso e Matricula.
+Não valida choque de horário; isso é feito pelo Aluno.
+Não cria a matrícula; isso é feito pelo sistema.
     """
 
     def __init__(self, codigo_oferta, curso, semestre, dias_horarios,
@@ -34,7 +35,8 @@ class Turma(Oferta):
 
     @matriculas.setter
     def matriculas(self, lista):
-        raise AttributeError("A lista de matrículas não pode ser substituída diretamente.") # Validação para não ser possível atribuir a lista diretamente
+        raise AttributeError("A lista de matrículas não pode ser substituída diretamente.") # Validação que impede substituir a lista
+
     
     @property
     def curso(self):
@@ -45,6 +47,9 @@ class Turma(Oferta):
         if not isinstance(novo_curso, Curso):
             raise TypeError("curso deve ser um objeto da classe Curso.") # Validação para garantir que é da classe Curso
         self.__curso = novo_curso
+
+    def tem_vaga(self): # Metodo que verifica se ha vaga disponivel na turma retorna true se ainda tiver vagas disponíveis na turma
+        return len(self) < self.vagas
 
     def matricular(self, matricula):
         from .matricula import Matricula # Importação local para evitar erro de importação circular 
