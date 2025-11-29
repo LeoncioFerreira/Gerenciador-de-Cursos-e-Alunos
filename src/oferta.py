@@ -1,13 +1,13 @@
 class Oferta:
     """
-    Classe base para ofertas acadêmicas.
+Representa uma oferta de curso em um semestre (serve como base para Turma).
 
-    Responsabilidades:
-    - Representar dados de uma oferta (ex.: id, período, horários)
-    - Servir como classe base para Turma
-    - Permitir extensões futuras
+Responsabilidades:
+- Armazenar semestre, horários, status e número de vagas
+- Validar dados recebidos
+- Fornecer estrutura para criação de Turma
 
-    Turma herdará e especializará esta classe.
+Turma herda desta classe para adicionar comportamento próprio.
     """
    
     def __init__(self,codigo_oferta ,codigo_curso , semestre, dias_horarios, vagas, status, local = None):

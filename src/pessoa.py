@@ -1,12 +1,14 @@
 import re
 class Pessoa:
     """
-    Classe base que representa uma pessoa no sistema.
-    Será utilizada como superclasse para Aluno.
+Classe base para representar uma pessoa no sistema.
 
-    Responsabilidades:
-    - Armazenar informações comuns (nome, e-mail, etc.)
-    - Servir como base para herança (extensibilidade)
+Responsabilidades:
+- Armazenar nome e e-mail
+- Validar formato do e-mail
+- Servir como classe-pai para Aluno
+
+Usada apenas como estrutura básica de identificação.
     """
     # Método construtor
     def __init__(self,nome,email):

@@ -1,13 +1,13 @@
 class Curso:
     """
-    Representa um curso do catálogo.
+Modelo de um curso da instituição.
 
-    Responsabilidades:
-    - Armazenar código, nome, carga horária e pré-requisitos
-    - Evitar duplicidade de cursos
-    - Validar ciclos de pré-requisitos
-    - Métodos especiais (__str__, __repr__)
-    Associado a Turma (ofertas desse curso).
+Responsabilidades:
+- Armazenar código, nome e carga horária
+- Validar dados de criação
+- Associar-se a turmas através das ofertas
+
+Não contém regras de matrícula; apenas define informações do curso.
     """
 # Método construtor
     def __init__(self, codigo, nome,carga_horaria,pre_requisitos):
