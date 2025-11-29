@@ -106,7 +106,6 @@ A seguir, a UML textual contendo **classes, atributos, métodos e relacionamento
 * `nome: str`
 * `carga_horaria: int`
 * `pre_requisitos: list[str]`
-* `ementa` *(opcional)*
 
 ### **Métodos (atuais + futuros)**
 
