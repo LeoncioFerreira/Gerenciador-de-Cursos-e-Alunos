@@ -1,0 +1,25 @@
+<h2>Cursos</h2>
+
+<table border="1">
+  <tr>
+    <!-- Cria cabeçalho de nome, código e carga horaria-->
+    <th>Código</th>
+    <th>Nome</th>
+    <th>C.H.</th>
+  </tr>
+  {% for c in cursos %}
+  <!-- Roda um laço para percorrer a lista de cursos-->
+  <tr>
+    <td>{{ c.codigo }}</td>
+    <!-- Exibe o código do curso -->
+    <td>{{ c.nome }}</td>
+    <!-- Exibe o nome do curso -->
+    <td>{{ c.ch }}</td>
+    <!-- Exibe a carga horária -->
+  </tr>
+  {% endfor %}
+</table>
+
+<br />
+<a href="/cadastrar_curso">Cadastrar novo curso</a>
+<!-- Cria um link para pagina de cadastro de curso-->
