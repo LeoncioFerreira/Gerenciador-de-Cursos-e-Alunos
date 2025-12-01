@@ -1,0 +1,31 @@
+<h2>Cursos</h2>
+
+<table border="1">
+  <tr>
+    <!-- Cria cabeçalho de nome, código e carga horaria-->
+    <th>Código</th>
+    <th>Nome</th>
+    <th>C.H.</th>
+    <th>Pré-requisitos</th>
+  </tr>
+  {% for c in cursos %}
+  <!-- Roda um laço para percorrer a lista de cursos-->
+  <tr>
+    <td>{{ c.codigo }}</td>
+    <!-- Exibe o código do curso -->
+    <td>{{ c.nome }}</td>
+    <!-- Exibe o nome do curso -->
+    <td>{{ c.carga_horaria }}</td>
+    <!-- Exibe a carga horária -->
+    <td>
+      <!-- Exibe a tabela com pré requisitos formatados caso não tenha será Nenhum-->
+      {% if c.pre_requisitos_formatado %} {{ c.pre_requisitos_formatado |
+      join(', ') }} {% else %} Nenhum {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br />
+<a href="/cursos/cadastrar_curso">Cadastrar novo curso</a>
+<!-- Cria um link para pagina de cadastro de curso-->
