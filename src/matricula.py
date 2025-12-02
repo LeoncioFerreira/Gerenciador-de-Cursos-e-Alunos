@@ -61,14 +61,14 @@ Responsabilidades:
                 raise ValueError("A frequência deve estar entre 0 e 100%.")
         self.__frequencia = valor
 
-    def __eq__(self, other):
-        #Matrículas são iguais se:
-        #mesmo aluno
-        #mesma turma
+    def __eq__(self, outro):
+        # Matrículas são iguais se:
+        # Mesmo aluno
+        # Mesma turma
        
-        if not isinstance(other, Matricula):
+        if not isinstance(outro, Matricula):
             return False
-        return self.aluno == other.aluno and self.turma == other.turma
+        return self.aluno == outro.aluno and self.turma == outro.turma
 
     def __str__(self):
         return f"Matricula: {self.aluno.nome} → {self.turma.codigo_oferta}"

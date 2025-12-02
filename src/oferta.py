@@ -25,7 +25,7 @@ Turma herda desta classe para adicionar comportamento próprio.
     
     @vagas.setter
     def vagas(self,valor):
-        if valor<= 0:         # Validação para que a quantidade de vagas seja positiva
+        if valor<= 0:  # Validação para que a quantidade de vagas seja positiva
             raise ValueError("A quantidade de vagas precisa ser positiva.")
         self.__vagas = valor 
     
@@ -86,7 +86,7 @@ Turma herda desta classe para adicionar comportamento próprio.
             raise TypeError("Dias e horários devem ser um dicionário")
         
         if not valor:
-            raise ValueError("A oferta deve ter pelo menos um dia e horário definido")# Validação para garantir que haja pelo menos um dia e horário definido
+            raise ValueError("A oferta deve ter pelo menos um dia e horário definido") # Validação para garantir que haja pelo menos um dia e horário definido
         self.__dias_horarios = valor
         
     def __str__(self): # Método __str__ que retorna uma string com código da oferta, curso, semestre, vagas e status
