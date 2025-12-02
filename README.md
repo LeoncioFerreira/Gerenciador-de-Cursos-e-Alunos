@@ -271,7 +271,7 @@ Gerenciador-de-Cursos-e-Alunos/
 │   ├── test_matricula.py
 │   ├── test_sistema.py
 │   ├── test_turma.py
-│   ├── test_persistencia.py 
+│   └── test_persistencia.py 
 │
 ├── LICENSE
 ├── pytest.ini
