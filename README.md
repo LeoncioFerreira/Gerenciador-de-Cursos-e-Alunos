@@ -24,29 +24,40 @@ O sistema deverá contemplar:
 * Cálculo de situação acadêmica
 * Relatórios gerais (taxa de aprovação, top N alunos, etc.)
 
-Na **Semana 2**, o foco é:
 
-✔ Implementar as classes fundamentais  
-✔ Usar herança e encapsulamento  
-✔ Criar validações robustas  
-✔ Implementar métodos especiais  
-✔ Desenvolver testes automatizados (pytest)
+## 🎯 Status do Desenvolvimento: Semana 3 (Concluída)
+
+A entrega desta semana focou em **herança**, **relacionamentos** e **persistência**.
+
+### ✔ 1. Herança funcional
+* `Pessoa` → `Aluno`
+* `Oferta` → `Turma`
+
+### ✔ 2. Relacionamentos entre classes
+A classe `Matricula` gerencia a ligação **Aluno ↔ Turma**, validando:
+* Vagas disponíveis
+* Choque de horário
+* Status da turma (`ABERTA`/`FECHADA`)
+
+### ✔ 3. Persistência simples (JSON)
+Módulo `persistencia.py` implementado com:
+* `salvar_*()` e `carregar_*()`
+* Estrutura padronizada em `data/*.json`
+
+### ✔ 4. Relatório básico
+A função `alunos_por_turma(turma)` gera listagem contendo:
+* Nome, Matrícula, Nota e Frequência
+
+### ✔ 5. Testes automatizados (pytest)
+Cobertura de testes para:
+* **Aluno:** CR e método `__lt__`
+* **Curso:** Validações e `__str__`
+* **Turma:** Vagas, `__len__`, matrícula
+* **Matricula:** Validação e igualdade (`__eq__`)
+* **Sistema:** Fluxo de matrícula, tratamento de erros e relatórios
+* **Persistência:** Leitura e escrita de JSON
 
 ---
-
-# 🎯 Objetivos da Semana 2
-
-- Estruturar as classes centrais do sistema.  
-- Garantir o uso correto de **@property** para encapsulamento.  
-- Implementar métodos especiais obrigatórios:
-  - `__str__`
-  - `__len__`
-  - `__eq__`
-  - `__lt__`
-- Criar testes unitários básicos com pytest.  
-- Carregar configurações via JSON.  
-
-Todos os requisitos foram atendidos.
 
 # 🧩 UML TEXTUAL
 ⚠️ Importante:
@@ -250,6 +261,7 @@ Gerenciador-de-Cursos-e-Alunos/
 │   ├── matricula.py
 │   ├── oferta.py
 │   ├── pessoa.py
+│   ├── persistencia.py
 │   ├── sistema.py
 │   └── turma.py
 │
@@ -258,7 +270,8 @@ Gerenciador-de-Cursos-e-Alunos/
 │   ├── test_curso.py
 │   ├── test_matricula.py
 │   ├── test_sistema.py
-│   └── test_turma.py
+│   ├── test_turma.py
+│   ├── test_persistencia.py 
 │
 ├── LICENSE
 ├── pytest.ini
@@ -268,7 +281,7 @@ Gerenciador-de-Cursos-e-Alunos/
 ```
 ## 🚀 Como Executar o Projeto
 
-A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes da Semana 2.
+A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes da Semana 3.
 
 ---
 ### 1️⃣ Clonar o repositório
