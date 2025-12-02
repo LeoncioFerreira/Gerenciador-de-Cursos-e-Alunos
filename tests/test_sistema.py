@@ -68,9 +68,7 @@ def test_choque_horario():
 
     a = Aluno("João", "j@test.com", "1")
 
-    matricular(a, t1)
-
-     # Matricula o aluno na primeira turma
+    matricular(a, t1) # Matricula o aluno na primeira turma
     with pytest.raises(ChoqueHorarioError):
         matricular(a, t2)
 
