@@ -1,59 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Lista de Cursos</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='bootstrap.css') }}"
-    />
-  </head>
+{% extends "tabela_padrao.html" %} {% block title %}Cursos{% endblock %} {%
+block titulo_tabela %}Cursos{% endblock %} {% block cabecalho %}
+<th>Código</th>
+<th>Nome</th>
+<th>C.H.</th>
+<th>Pré-requisitos</th>
+<th>Ações</th>
+{% endblock %} {% block linhas %} {% for c in cursos %}
+<tr>
+  <th scope="row" class="align-middle"><strong>{{ c.codigo }}</strong></th>
 
-  <body class="bg-dark text-white">
-    <div class="container mt-5">
-      <h2 class="mb-4 text-center">Cursos</h2>
+  <td class="align-middle">{{ c.nome }}</td>
 
-      <div class="card shadow-lg text-dark">
-        <div class="card-body p-0">
-          <table
-            class="table table-hover table-striped table-bordered text-center mb-0"
-          >
-            <thead class="table-dark">
-              <tr>
-                <!-- Cria cabeçalho de nome, código e carga horaria-->
-                <th scope="col">Código</th>
-                <th scope="col">Nome</th>
-                <th scope="col">C.H</th>
-                <th scope="col">Pré-requisitos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for c in cursos %}
-              <!-- Roda um laço para percorrer a lista de cursos-->
-              <tr>
-                <th scope="row">{{ c.codigo }}</th>
-                <td>{{ c.nome }}</td>
-                <td>{{ c.carga_horaria }}</td>
-                <td>
-                  <!-- Exibe a tabela com pré requisitos formatados caso não tenha será Nenhum-->
-                  {% if c.pre_requisitos_formatado %} {{
-                  c.pre_requisitos_formatado | join(', ') }} {% else %} Nenhum
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <br />
+  <td class="align-middle">{{ c.carga_horaria }}</td>
 
-      <div class="text-center">
-        <!-- Cria um link para pagina de cadastro de curso-->
-        <a href="/cursos/cadastrar_curso" class="btn btn-success btn-lg"
-          >Cadastrar novo curso</a
-        >
-      </div>
-    </div>
-  </body>
-</html>
+  <!-- Exibir pré-requisitos formatados -->
+  <td class="align-middle">
+    {% if c.pre_requisitos %} {% for pre in c.pre_requisitos %}
+    <span class="badge bg-secondary">{{ pre }}</span>
+    {% endfor %} {% else %}
+    <span class="text-muted">Nenhum</span>
+    {% endif %}
+  </td>
+
+  <!-- Botão editar-->
+  <td class="align-middle">
+    <a href="/cursos/editar/{{ c.codigo }}" class="btn btn-primary btn-sm"
+      >Editar</a
+    >
+    <!-- Botão remover-->
+    <a
+      href="/cursos/remover/{{ c.codigo }}"
+      class="btn btn-danger btn-sm"
+      onclick="return confirm('Tem certeza que deseja remover este curso?');"
+    >
+      Remover
+    </a>
+  </td>
+</tr>
+{% endfor %} {% endblock %} {% block botoes %}
+
+<!-- Botão cadastrar novo curso-->
+<a href="/cursos/cadastrar_curso" class="btn btn-success btn-lg">
+  Cadastrar novo curso</a
+>
+{% endblock %}

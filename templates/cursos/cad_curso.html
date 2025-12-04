@@ -1,104 +1,37 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Cadastrar Curso</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='bootstrap.css') }}"
-    />
-  </head>
+{% extends "cad_padrao.html" %} {% set titulo = "Cadastrar Curso" %} {% set
+voltar = "/cursos" %} {% block campos %}
+<!-- Código-->
+<div class="mb-3">
+  <label class="form-label">Código:</label>
+  <input type="text" name="codigo" class="form-control" />
+</div>
 
-  <body class="bg-dark text-white">
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <h2 class="text-center mb-4">Cadastrar Curso</h2>
-          <!-- Exibe uma mensagem de erro caso exista-->
+<!--Nome-->
+<div class="mb-3">
+  <label class="form-label">Nome:</label>
+  <input type="text" name="nome" class="form-control" />
+</div>
 
-          {% if erro %}
-          <div class="alert alert-danger">{{ erro }}</div>
-          {% endif %}
-          <div class="card bg-secondary text-white shadow">
-            <div class="card-body p-4">
-              <!-- Formulario para cadastro de curso via post-->
-              <form method="post">
-                <!-- Recebe o codigo -->
-                <div class="mb-3">
-                  <label for="codigo" class="form-label">Código:</label>
-                  <input
-                    type="text"
-                    name="codigo"
-                    id="codigo"
-                    class="form-control"
-                    required
-                  />
-                </div>
+<!--Carga Horária-->
+<div class="mb-3">
+  <label class="form-label">Carga Horária:</label>
+  <input type="number" name="ch" class="form-control" />
+</div>
 
-                <!-- Recebe o nome -->
-                <div class="mb-3">
-                  <label for="nome" class="form-label">Nome:</label>
-                  <input
-                    type="text"
-                    name="nome"
-                    id="nome"
-                    class="form-control"
-                    required
-                  />
-                </div>
+<!--Pré-requisitos-->
+<div class="mb-3">
+  <label class="form-label">Pré-requisitos:</label>
 
-                <!-- Recebe a carga horária -->
-                <div class="mb-3">
-                  <label for="ch" class="form-label">Carga horária:</label>
-                  <input
-                    type="number"
-                    name="ch"
-                    id="ch"
-                    class="form-control"
-                    required
-                  />
-                </div>
+  <!--Caixa para selecionar pre requisitos-->
+  <select name="pre_requisitos" class="form-select" multiple size="5">
+    {% for c in cursos %}
+    <option value="{{ c.codigo }}">{{ c.codigo }} - {{ c.nome }}</option>
+    {% endfor %}
+  </select>
 
-                <!-- Pré-requisitos -->
-                <div class="mb-3">
-                  <label for="pre_requisitos" class="form-label"
-                    >Pré-requisitos:</label
-                  >
-                  <select
-                    name="pre_requisitos"
-                    id="pre_requisitos"
-                    class="form-select"
-                    multiple
-                    size="5"
-                  >
-                    <!--Percorre a lista de cursos cadastrados e exibe código + nome-->
-                    {% for c in cursos %}
-                    <option value="{{ c.codigo }}">
-                      {{ c.codigo }} - {{ c.nome }}
-                    </option>
-                    {% endfor %}
-                  </select>
+  <div class="form-text text-light opacity-75">
+    <small>Segure CTRL para selecionar mais de um.</small>
+  </div>
+</div>
 
-                  <!-- Mensagem para selecionar cursos  -->
-                  <div class="form-text text-light opacity-75">
-                    <small>Segure CTRL para selecionar mais de um.</small>
-                  </div>
-                </div>
-
-                <!-- Botão -->
-                <div class="d-grid gap-2 mt-4">
-                  <button type="submit" class="btn btn-success btn-lg">
-                    Salvar
-                  </button>
-                  <a href="/cursos" class="btn btn-outline-light"
-                    >Voltar para a lista</a
-                  >
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+{% endblock %}
