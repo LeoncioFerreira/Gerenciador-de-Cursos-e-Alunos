@@ -1,0 +1,75 @@
+{% extends "edit_padrao.html" %}
+{% set title = "Editar Turma" %}
+{% set titulo_form = "Editar Turma" %}
+{% set url_cancelar = "/turmas" %}
+
+{% block form_fields %}
+
+<!-- Código da Oferta (fixo) -->
+<div class="mb-3">
+  <label class="form-label">Código da Oferta:</label>
+  <input class="form-control bg-dark text-white" value="{{ turma.codigo_oferta }}" disabled>
+</div>
+
+<!-- Semestre -->
+<div class="mb-3">
+  <label class="form-label">Semestre:</label>
+  <input name="semestre" class="form-control" value="{{ turma.semestre }}" required>
+</div>
+
+<!-- Curso -->
+<div class="mb-3">
+  <label class="form-label">Curso:</label>
+  <select name="codigo_curso" class="form-select" required>
+    {% for c in cursos %}
+      <option value="{{ c.codigo }}" {{ "selected" if c.codigo == turma.codigo_curso else "" }}>
+        {{ c.codigo }} - {{ c.nome }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- Vagas -->
+<div class="mb-3">
+  <label class="form-label">Vagas:</label>
+  <input type="number" name="vagas" class="form-control" value="{{ turma.vagas }}" required>
+</div>
+
+<!-- Local -->
+<div class="mb-3">
+  <label class="form-label">Local:</label>
+  <input name="local" class="form-control" value="{{ turma.local }}" placeholder="Ex: Sala 12">
+</div>
+
+<hr class="border-light">
+
+<!-- Dias e horários -->
+<h5 class="text-center mb-3">Dias e Horários</h5>
+
+{% set dia = turma.dias_horarios|list|first %}
+{% set inicio, fim = turma.dias_horarios[dia][0] %}
+
+<div class="row">
+  <div class="col-md-4">
+    <label class="form-label">Dia:</label>
+    <select name="dia" class="form-select">
+      {% for d in ["seg", "ter", "qua", "qui", "sex"] %}
+        <option value="{{ d }}" {{ "selected" if d == dia else "" }}>
+          {{ d|title }}{% if d == "seg" %}unda{% elif d == "ter" %}ça{% elif d == "qua" %}rta{% elif d == "qui" %}nta{% elif d == "sex" %}ta{% endif %}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label class="form-label">Início:</label>
+    <input type="time" name="inicio" class="form-control" value="{{ inicio }}" required>
+  </div>
+
+  <div class="col-md-4">
+    <label class="form-label">Fim:</label>
+    <input type="time" name="fim" class="form-control" value="{{ fim }}" required>
+  </div>
+</div>
+
+{% endblock %}
