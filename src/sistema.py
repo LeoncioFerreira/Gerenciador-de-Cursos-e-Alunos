@@ -1,4 +1,3 @@
-import json
 from .matricula import Matricula
 from .turma import Turma
 from .aluno import Aluno
@@ -10,7 +9,6 @@ Responsabilidades:
 - Realizar matrícula (checando vagas, status e choque de horário)
 - Criar e registrar objeto Matricula
 - Funções auxiliares para horários
-- Persistência simples em JSON
 - Relatório de alunos por turma
 
 é a camada que integra Aluno, Turma e Matricula.

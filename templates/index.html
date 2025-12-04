@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gerenciador Acadêmico</title>
+
+    <!-- Caminho correto para o bootstrap.css no flask -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='bootstrap.css') }}"
+    />
+  </head>
+  <!-- Define a cor do fundo, centraliza e o tamanho do site na janela-->
+  <body
+    class="bg-dark text-white d-flex flex-column justify-content-center align-items-center vh-100"
+  >
+    <div class="container text-center">
+      <h1 class="mb-5">Gerenciador Acadêmico — Sistema</h1>
+
+      <div class="row justify-content-center">
+        <!-- Redireciona para cursos-->
+        <div class="col-md-3 mb-3">
+          <a href="/cursos" class="btn btn-primary w-100 p-3 shadow-sm"
+            >Cursos</a
+          >
+        </div>
+
+        <!-- Redireciona para alunos-->
+        <div class="col-md-3 mb-3">
+          <a href="/alunos" class="btn btn-success w-100 p-3 shadow-sm"
+            >Alunos</a
+          >
+        </div>
+
+        <!-- Redireciona para turmas-->
+        <div class="col-md-3 mb-3">
+          <a
+            href="/turmas"
+            class="btn btn-warning text-white w-100 p-3 shadow-sm"
+            >Turmas</a
+          >
+        </div>
+
+        <!-- Redireciona para matriculas-->
+        <div class="col-md-3 mb-3">
+          <a
+            href="/matriculas"
+            class="btn btn-info text-white w-100 p-3 shadow-sm"
+            >Matriculas</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

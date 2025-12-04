@@ -1,0 +1,37 @@
+{% extends "cad_padrao.html" %} {% set titulo = "Cadastrar Curso" %} {% set
+voltar = "/cursos" %} {% block campos %}
+<!-- Código-->
+<div class="mb-3">
+  <label class="form-label">Código:</label>
+  <input type="text" name="codigo" class="form-control" />
+</div>
+
+<!--Nome-->
+<div class="mb-3">
+  <label class="form-label">Nome:</label>
+  <input type="text" name="nome" class="form-control" />
+</div>
+
+<!--Carga Horária-->
+<div class="mb-3">
+  <label class="form-label">Carga Horária:</label>
+  <input type="number" name="ch" class="form-control" />
+</div>
+
+<!--Pré-requisitos-->
+<div class="mb-3">
+  <label class="form-label">Pré-requisitos:</label>
+
+  <!--Caixa para selecionar pre requisitos-->
+  <select name="pre_requisitos" class="form-select" multiple size="5">
+    {% for c in cursos %}
+    <option value="{{ c.codigo }}">{{ c.codigo }} - {{ c.nome }}</option>
+    {% endfor %}
+  </select>
+
+  <div class="form-text text-light opacity-75">
+    <small>Segure CTRL para selecionar mais de um.</small>
+  </div>
+</div>
+
+{% endblock %}

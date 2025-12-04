@@ -1,0 +1,46 @@
+{% extends "tabela_padrao.html" %} {% block title %}Cursos{% endblock %} {%
+block titulo_tabela %}Cursos{% endblock %} {% block cabecalho %}
+<th>Código</th>
+<th>Nome</th>
+<th>C.H.</th>
+<th>Pré-requisitos</th>
+<th>Ações</th>
+{% endblock %} {% block linhas %} {% for c in cursos %}
+<tr>
+  <th scope="row" class="align-middle"><strong>{{ c.codigo }}</strong></th>
+
+  <td class="align-middle">{{ c.nome }}</td>
+
+  <td class="align-middle">{{ c.carga_horaria }}</td>
+
+  <!-- Exibir pré-requisitos formatados -->
+  <td class="align-middle">
+    {% if c.pre_requisitos %} {% for pre in c.pre_requisitos %}
+    <span class="badge bg-secondary">{{ pre }}</span>
+    {% endfor %} {% else %}
+    <span class="text-muted">Nenhum</span>
+    {% endif %}
+  </td>
+
+  <!-- Botão editar-->
+  <td class="align-middle">
+    <a href="/cursos/editar/{{ c.codigo }}" class="btn btn-primary btn-sm"
+      >Editar</a
+    >
+    <!-- Botão remover-->
+    <a
+      href="/cursos/remover/{{ c.codigo }}"
+      class="btn btn-danger btn-sm"
+      onclick="return confirm('Tem certeza que deseja remover este curso?');"
+    >
+      Remover
+    </a>
+  </td>
+</tr>
+{% endfor %} {% endblock %} {% block botoes %}
+
+<!-- Botão cadastrar novo curso-->
+<a href="/cursos/cadastrar_curso" class="btn btn-success btn-lg">
+  Cadastrar novo curso</a
+>
+{% endblock %}

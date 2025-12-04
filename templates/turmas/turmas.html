@@ -1,0 +1,81 @@
+{% extends "tabela_padrao.html" %} {% block title %}Gerenciar Turmas{% endblock
+%} {% block titulo_tabela %}Turmas{% endblock %} {% block cabecalho %}
+<th>Oferta</th>
+<th>Curso</th>
+<th>Semestre</th>
+<th>Dias e Horários</th>
+<th>Vagas</th>
+<th>Status</th>
+<th>Ações</th>
+{% endblock %} {% block linhas %} {% for t in turmas %}
+<tr>
+  <!-- Oferta -->
+  <td class="align-middle">{{ t.codigo_oferta }}</td>
+
+  <!-- Curso -->
+  <td class="align-middle">{{ t.nome_curso }}</td>
+
+  <!-- Semestre -->
+  <td class="align-middle">{{ t.semestre }}</td>
+
+  <!-- Dias e horários -->
+  <td class="text-start align-middle text-nowrap">
+    {% for dia, intervalos in t.dias_horarios.items() %}
+    <strong>{{ dia|title }}:</strong>
+    {% for ini, fim in intervalos %} {{ ini }}–{{ fim }} {% endfor %}
+    <br />
+    {% endfor %}
+  </td>
+
+  <!-- Vagas -->
+  <td class="align-middle">
+    <span class="badge bg-secondary">
+      {{ t.matriculados|default(0) }}/{{ t.vagas }}
+    </span>
+  </td>
+
+  <!-- Status -->
+  <td class="align-middle">
+    {% if t.status == "ABERTA" %}
+    <span class="badge bg-success">ABERTA</span>
+    {% else %}
+    <span class="badge bg-danger">FECHADA</span>
+    {% endif %}
+  </td>
+
+  <!-- Ações -->
+  <td class="align-middle">
+    {% if t.status == "ABERTA" %}
+    <a
+      href="/turmas/status/{{ t.codigo_oferta }}/fechada"
+      class="btn btn-warning btn-sm me-1"
+    >
+      Fechar
+    </a>
+    {% else %}
+    <a
+      href="/turmas/status/{{ t.codigo_oferta }}/aberta"
+      class="btn btn-success btn-sm me-1"
+    >
+      Abrir
+    </a>
+    {% endif %}
+
+    <a
+      href="/turmas/editar/{{ t.codigo_oferta }}"
+      class="btn btn-primary btn-sm me-1"
+    >
+      Editar
+    </a>
+
+    <a
+      href="/turmas/excluir/{{ t.codigo_oferta }}"
+      class="btn btn-danger btn-sm"
+    >
+      Remover
+    </a>
+  </td>
+</tr>
+{% endfor %} {% endblock %} {% block botoes %}
+<a href="/turmas/cadastrar" class="btn btn-success btn-lg">Cadastrar Turma</a>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "cad_padrao.html" %} {% set titulo = "Cadastrar Turma" %} {% set
+voltar = "/turmas" %} {% block campos %}
+
+<!-- Código da oferta -->
+<div class="mb-3">
+  <label class="form-label">Código da Oferta</label>
+  <input name="codigo_oferta" class="form-control" />
+</div>
+
+<!-- Curso -->
+<div class="mb-3">
+  <label class="form-label">Curso</label>
+  <select name="codigo_curso" class="form-control">
+    {% for c in cursos %}
+    <option value="{{ c.codigo }}">{{ c.codigo }} — {{ c.nome }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- Semestre -->
+<div class="mb-3">
+  <label class="form-label">Semestre</label>
+  <input name="semestre" class="form-control" placeholder="2025.1" />
+</div>
+
+<!-- Vagas -->
+<div class="mb-3">
+  <label class="form-label">Vagas</label>
+  <input type="number" name="vagas" class="form-control" />
+</div>
+
+<!-- Local -->
+<div class="mb-3">
+  <label class="form-label">Local (opcional)</label>
+  <input name="local" class="form-control" />
+</div>
+
+<!-- Dias e horários -->
+<h4 class="mt-4">Dias e Horários</h4>
+
+<div class="row mt-2">
+  <div class="col">
+    <select name="dia" class="form-control">
+      <option value="seg">Seg</option>
+      <option value="ter">Ter</option>
+      <option value="qua">Qua</option>
+      <option value="qui">Qui</option>
+      <option value="sex">Sex</option>
+    </select>
+  </div>
+
+  <div class="col">
+    <input type="time" name="inicio" class="form-control" />
+  </div>
+
+  <div class="col">
+    <input type="time" name="fim" class="form-control" />
+  </div>
+</div>
+
+{% endblock %}

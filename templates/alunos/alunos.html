@@ -1,0 +1,31 @@
+{% extends "tabela_padrao.html" %} {% block title %}Alunos{% endblock %} {%
+block titulo_tabela %}Alunos{% endblock %} {% block cabecalho %}
+<th>Matrícula</th>
+<th>Nome</th>
+<th>Email</th>
+<th>Ações</th>
+{% endblock %} {% block linhas %} {% for a in alunos %}
+<tr>
+  <td class="align-middle"><strong>{{ a.matricula }}</strong></td>
+  <td class="align-middle">{{ a.nome }}</td>
+  <td class="align-middle">{{ a.email }}</td>
+
+  <td class="align-middle">
+    <a href="/alunos/editar/{{ a.matricula }}" class="btn btn-primary btn-sm"
+      >Editar</a
+    >
+
+    <a
+      href="/alunos/remover/{{ a.matricula }}"
+      onclick="return confirm('Deseja remover este aluno?');"
+      class="btn btn-danger btn-sm"
+    >
+      Remover
+    </a>
+  </td>
+</tr>
+{% endfor %} {% endblock %} {% block botoes %}
+<a href="/alunos/cadastrar" class="btn btn-success btn-lg"
+  >Cadastrar novo aluno</a
+>
+{% endblock %}

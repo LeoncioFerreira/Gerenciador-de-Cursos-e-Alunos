@@ -1,0 +1,67 @@
+{% extends "edit_padrao.html" %} {% set title = "Editar Curso" %} {% set
+titulo_form = "Editar Curso" %} {% set url_cancelar = "/cursos" %} {% block
+form_fields %}
+
+<!-- Código (não alterável) -->
+<div class="mb-3">
+  <label class="form-label">Código (Não pode ser alterado):</label>
+  <input
+    type="text"
+    name="codigo"
+    value="{{ curso.codigo }}"
+    class="form-control"
+    readonly
+    style="background-color: #444; color: #ccc; border: 1px solid #555"
+  />
+</div>
+
+<!-- Nome -->
+<div class="mb-3">
+  <label class="form-label">Nome:</label>
+  <input
+    type="text"
+    name="nome"
+    value="{{ curso.nome }}"
+    class="form-control"
+  />
+</div>
+
+<!-- Carga Horária -->
+<div class="mb-3">
+  <label class="form-label">Carga Horária:</label>
+  <input
+    type="number"
+    name="ch"
+    value="{{ curso.carga_horaria }}"
+    class="form-control"
+  />
+</div>
+
+<!-- Pré-requisitos -->
+<div class="mb-3">
+  <label class="form-label">Pré-requisitos:</label>
+
+  <select name="pre_requisitos" class="form-select" multiple size="5">
+    {% for c in cursos %} {% if c.codigo != curso.codigo %}
+    <option
+      value="{{ c.codigo }}"
+      {%
+      if
+      c.codigo
+      in
+      curso.pre_requisitos
+      %}selected{%
+      endif
+      %}
+    >
+      {{ c.codigo }} - {{ c.nome }}
+    </option>
+    {% endif %} {% endfor %}
+  </select>
+
+  <div class="form-text text-light opacity-75">
+    <small>Segure CTRL para selecionar ou remover opções.</small>
+  </div>
+</div>
+
+{% endblock %}
