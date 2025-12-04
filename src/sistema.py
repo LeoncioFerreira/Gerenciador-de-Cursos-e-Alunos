@@ -1,4 +1,3 @@
-import json
 from .matricula import Matricula
 from .turma import Turma
 from .aluno import Aluno
@@ -10,7 +9,6 @@ Responsabilidades:
 - Realizar matrícula (checando vagas, status e choque de horário)
 - Criar e registrar objeto Matricula
 - Funções auxiliares para horários
-- Persistência simples em JSON
 - Relatório de alunos por turma
 
 é a camada que integra Aluno, Turma e Matricula.
@@ -31,7 +29,7 @@ def minutos(hora): # Função que recebe horas e minutos e retorna a carga horá
     return h * 60 + m
 
 
-def intervalos_se_chocam(i1, i2): #Função que recebe horario de inicio e fim depois verifica se 1 termina antes do outro termina
+def intervalos_se_chocam(i1, i2): # Função que recebe horario de inicio e fim depois verifica se 1 termina antes do outro termina
     s1, e1 = map(minutos, i1)
     s2, e2 = map(minutos, i2)
     return max(s1, s2) < min(e1, e2)
