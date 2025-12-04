@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block title %}{{ titulo }}{% endblock %} {% block
+content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">{{ titulo }}</h2>
+
+      {% if erro %}
+      <div class="alert alert-danger">{{ erro }}</div>
+      {% endif %}
+
+      <div class="card bg-secondary text-white shadow">
+        <div class="card-body p-4">
+          <form method="post">
+            <!-- AQUI ENTRAM OS CAMPOS DO FORMULÁRIO DA PÁGINA -->
+            {% block campos %}{% endblock %}
+
+            <!-- BOTÕES PADRÃO -->
+            <div class="d-grid gap-2 mt-4">
+              <button type="submit" class="btn btn-success btn-lg">
+                Salvar
+              </button>
+
+              <a href="{{ voltar }}" class="btn btn-outline-light"> Voltar </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

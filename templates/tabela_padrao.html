@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+<h2 class="mb-4 text-center">
+  {% block titulo_tabela %}Título da Tabela{% endblock %}
+</h2>
+
+<div class="card shadow-lg text-dark">
+  <div class="card-body p-0">
+    <table
+      class="table table-hover table-striped table-bordered text-center mb-0"
+    >
+      <thead class="table-dark">
+        <tr>
+          {% block cabecalho %} {% endblock %}
+        </tr>
+      </thead>
+
+      <tbody>
+        {% block linhas %} {% endblock %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="text-center mt-4">{% block botoes %} {% endblock %}</div>
+
+<div class="text-center mt-4">
+  <a href="/" class="btn btn-secondary btn-lg">Voltar ao Menu</a>
+</div>
+
+{% endblock %}
