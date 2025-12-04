@@ -47,14 +47,14 @@
   <td class="align-middle">
     {% if t.status == "ABERTA" %}
     <a
-      href="/turmas/fechar/{{ t.codigo_oferta }}"
+      href="/turmas/status/{{ t.codigo_oferta }}/fechada"
       class="btn btn-warning btn-sm me-1"
     >
       Fechar
     </a>
     {% else %}
     <a
-      href="/turmas/abrir/{{ t.codigo_oferta }}"
+      href="/turmas/status/{{ t.codigo_oferta }}/aberta"
       class="btn btn-success btn-sm me-1"
     >
       Abrir
