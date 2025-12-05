@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from routes.cursos_routes import cursos_bp
 from routes.turmas_routes import turmas_bp
-
+from routes.alunos_routes import alunos_bp 
 app = Flask(__name__)
 
 @app.route("/") # Rota padrão
@@ -11,6 +11,7 @@ def index():
 # Registrar blueprint
 app.register_blueprint(cursos_bp, url_prefix="/cursos")
 app.register_blueprint(turmas_bp, url_prefix="/turmas")
+app.register_blueprint(alunos_bp, url_prefix="/alunos")
 
 if __name__ == "__main__":
     app.run(debug=True)
