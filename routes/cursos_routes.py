@@ -20,7 +20,7 @@ def cursos():
     return render_template("cursos/cursos.html", cursos=lista)
 
 # Cadastra Curso
-@cursos_bp.route("/cadastrar_curso", methods=["GET", "POST"])
+@cursos_bp.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar_curso():
     if request.method == "POST": # Se o metodo for POST carrega o formulario
 
@@ -84,11 +84,11 @@ def editar_curso(codigo):
         prereqs = request.form.getlist("pre_requisitos")
 
         try:
-            # 1. Instancia um objeto temporário para acionar as validações da classe
+            # Instancia um objeto temporário para acionar as validações da classe
             # Usamos o código original para manter a consistência
             temp_obj = Curso(codigo, nome, ch, prereqs)
             
-            # 2. Se não deu erro, atualizamos o dicionário com os dados validados
+            # Se não deu erro, atualizamos o dicionário com os dados validados
             curso_dict["nome"] = temp_obj.nome
             curso_dict["carga_horaria"] = temp_obj.carga_horaria
             curso_dict["pre_requisitos"] = temp_obj.pre_requisitos
@@ -104,3 +104,20 @@ def editar_curso(codigo):
                                    erro=str(e))
 
     return render_template("cursos/editar_curso.html", curso=curso_dict, cursos=cursos)
+
+# Remover Curso
+@cursos_bp.route("/remover/<codigo>", methods=["GET"])
+def remover_curso(codigo):
+    cursos = carregar_cursos()
+
+    # Filtra cursos mantendo todos menos o removido
+    nova_lista = [c for c in cursos if c["codigo"] != codigo]
+
+    # Se nada foi removido, apenas volta para a lista
+    if len(nova_lista) == len(cursos):
+        return redirect("/cursos")
+
+    # Salva nova lista sem o curso removido
+    salvar_cursos(nova_lista)
+
+    return redirect("/cursos")
