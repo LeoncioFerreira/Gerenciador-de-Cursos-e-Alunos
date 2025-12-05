@@ -8,13 +8,24 @@
 <!-- Código da Oferta (fixo) -->
 <div class="mb-3">
   <label class="form-label">Código da Oferta:</label>
-  <input class="form-control bg-dark text-white" value="{{ turma.codigo_oferta }}" disabled>
+  <input
+    type="text"
+    name="codigo_oferta"
+    value="{{ turma.codigo_oferta }}"
+    class="form-control"
+    readonly
+    style="background-color: #444; color: #ccc; border: 1px solid #555"
+  />
 </div>
 
 <!-- Semestre -->
 <div class="mb-3">
   <label class="form-label">Semestre:</label>
-  <input name="semestre" class="form-control" value="{{ turma.semestre }}" required>
+  <input
+    type="text"
+    name="semestre"
+    value="{{ turma.semestre }}"
+    class="form-control"/> 
 </div>
 
 <!-- Curso -->
@@ -32,13 +43,24 @@
 <!-- Vagas -->
 <div class="mb-3">
   <label class="form-label">Vagas:</label>
-  <input type="number" name="vagas" class="form-control" value="{{ turma.vagas }}" required>
+  <input
+    type="number"
+    name="vagas"
+    value="{{ turma.vagas }}"
+    class="form-control"
+  />
 </div>
 
 <!-- Local -->
 <div class="mb-3">
   <label class="form-label">Local:</label>
-  <input name="local" class="form-control" value="{{ turma.local }}" placeholder="Ex: Sala 12">
+  <input
+    type="text"
+    name="local"
+    value="{{ turma.local }}"
+    class="form-control"
+    placeholder="Ex: Sala 12"
+  />
 </div>
 
 <hr class="border-light">
@@ -61,15 +83,26 @@
     </select>
   </div>
 
-  <div class="col-md-4">
+   <div class="col-md-4">
     <label class="form-label">Início:</label>
-    <input type="time" name="inicio" class="form-control" value="{{ inicio }}" required>
+    <input
+      type="time"
+      name="inicio"
+      value="{{ inicio }}"
+      class="form-control"
+    />
   </div>
 
   <div class="col-md-4">
     <label class="form-label">Fim:</label>
-    <input type="time" name="fim" class="form-control" value="{{ fim }}" required>
+    <input
+      type="time"
+      name="fim"
+      value="{{ fim }}"
+      class="form-control"
+    />
   </div>
 </div>
+
 
 {% endblock %}
