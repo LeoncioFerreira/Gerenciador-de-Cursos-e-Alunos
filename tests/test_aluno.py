@@ -1,7 +1,7 @@
-from src.aluno import Aluno
-from src.curso import Curso
-from src.turma import Turma
-from src.matricula import Matricula
+from src.models.aluno import Aluno
+from src.models.curso import Curso
+from src.models.turma import Turma
+from src.models.matricula import Matricula
 
 def test_cr_calculo():
     # Teste para calcular o coeficiente de rendimento 

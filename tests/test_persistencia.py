@@ -1,6 +1,6 @@
 import os
 import tempfile
-from src.persistencia import salvar, carregar
+from src.infra.persistencia import salvar, carregar
 
 def test_persistencia_salvar_e_carregar():
     # Cria diretório e arquivo temporários

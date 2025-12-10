@@ -1,5 +1,5 @@
 import pytest
-from src.curso import Curso
+from src.models.curso import Curso
 
 def test_criar_curso_ok():
     # Testa a criação de um curso com atributos válidos

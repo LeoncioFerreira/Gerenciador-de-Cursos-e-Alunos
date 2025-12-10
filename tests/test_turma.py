@@ -1,8 +1,8 @@
 import pytest
-from src.curso import Curso
-from src.turma import Turma
-from src.matricula import Matricula
-from src.aluno import Aluno
+from src.models.curso import Curso
+from src.models.turma import Turma
+from src.models.matricula import Matricula
+from src.models.aluno import Aluno
 
 def criar_turma_padrao():
     # Cria um curso e retorna uma turma com 2 vagas    

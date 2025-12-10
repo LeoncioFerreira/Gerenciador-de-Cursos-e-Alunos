@@ -1,13 +1,14 @@
 import pytest
-from src.curso import Curso
-from src.turma import Turma
-from src.aluno import Aluno
-from src.sistema import (
+from src.models.curso import Curso
+from src.models.turma import Turma
+from src.models.aluno import Aluno
+from src.services.sistema import (
     matricular,
     alunos_por_turma,
     TurmaFechadaError,
     TurmaLotadaError,
-    ChoqueHorarioError
+    ChoqueHorarioError,
+    PreRequisitoError
 )
  # Cria objetos necessários: curso, turma aberta e aluno
 def test_matricular_ok():
@@ -94,3 +95,20 @@ def test_relatorio():
     assert rel[1]["nome"] == "A2"
     assert "nota" in rel[0] # relatório inclui nota
     assert "frequencia" in rel[1] # relatório inclui frequência
+
+def test_pre_requisito_pendente():
+    # 1. Cria Curso Básico (Sem requisito)
+    c_basico = Curso("MAT1", "Matemática Básica", 60, [])
+    
+    # 2. Cria Curso Avançado (Exige MAT1)
+    c_avancado = Curso("MAT2", "Cálculo I", 60, ["MAT1"])
+    
+    # 3. Cria Turma do curso Avançado
+    t_avancada = Turma("T_CALC", c_avancado, "2025.1", {"QUA": [("08:00", "10:00")]}, vagas=30, status="ABERTA")
+    
+    # 4. Aluno novo (sem histórico) tenta pegar Cálculo direto
+    a = Aluno("Novato", "n@test.com", "99")
+
+    # Deve falhar pois ele não tem MAT1 no histórico
+    with pytest.raises(PreRequisitoError):
+        matricular(a, t_avancada)
