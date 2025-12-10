@@ -27,16 +27,6 @@ Não cria a matrícula; isso é feito pelo sistema.
         )
         self.matriculas = []
         self.curso = curso
-
-   
-    @property
-    def matriculas(self):
-        return self.matriculas[:]
-
-    @matriculas.setter
-    def matriculas(self, lista):
-        raise AttributeError("A lista de matrículas não pode ser substituída diretamente.") # Validação que impede substituir a lista
-
     
     @property
     def curso(self):
