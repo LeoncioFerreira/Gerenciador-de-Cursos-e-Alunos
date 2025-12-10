@@ -1,12 +1,12 @@
 # Indica que 'src' é um módulo Python.
 
-from .pessoa import Pessoa
-from .aluno import Aluno
-from .curso import Curso
-from .oferta import Oferta
-from .turma import Turma
-from .matricula import Matricula
-from .configuracoes import Configuracoes
+from .models.pessoa import Pessoa
+from .models.aluno import Aluno
+from .models.curso import Curso
+from .models.oferta import Oferta
+from .models.turma import Turma
+from .models.matricula import Matricula
+from .infra.configuracoes import Configuracoes
 
 __all__ = [
     "Pessoa",

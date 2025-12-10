@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
-from src.persistencia import carregar_cursos, carregar_turmas, salvar_turmas
-from src.turma import Turma
-from src.curso import Curso
+from src.infra.persistencia import carregar_cursos, carregar_turmas, salvar_turmas
+from src.models.turma import Turma
+from src.models.curso import Curso
 
 turmas_bp = Blueprint("turmas", __name__)
 

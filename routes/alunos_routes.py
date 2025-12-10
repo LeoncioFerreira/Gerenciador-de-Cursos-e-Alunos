@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect
-from src.persistencia import carregar_alunos, salvar_alunos
-from src.aluno import Aluno
+from src.infra.persistencia import carregar_alunos, salvar_alunos
+from src.models.aluno import Aluno
 
 alunos_bp = Blueprint("alunos", __name__)
 # Lista alunoa

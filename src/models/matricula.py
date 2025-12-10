@@ -1,7 +1,7 @@
 from .aluno import Aluno
 from .turma import Turma
 from src.infra import config
-from datetime import date # Blibioteca para validarmos a data de trancamento
+from datetime import date  # Blibioteca para validarmos a data de trancamento
 
 class Matricula:
     """
@@ -93,4 +93,3 @@ Responsabilidades:
 
     def __str__(self):
         return f"Matricula: {self.aluno.nome} → {self.turma.codigo_oferta}"
-    

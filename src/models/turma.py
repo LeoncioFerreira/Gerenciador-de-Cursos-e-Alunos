@@ -51,21 +51,12 @@ Não cria a matrícula; isso é feito pelo sistema.
     def tem_vaga(self): # Metodo que verifica se ha vaga disponivel na turma retorna true se ainda tiver vagas disponíveis na turma
         return len(self) < self.vagas
 
-    def matricular(self, matricula):
+    def adicionar_matricula(self, matricula):
         from .matricula import Matricula # Importação local para evitar erro de importação circular 
 
-        if not isinstance(matricula, Matricula):
-            raise TypeError("O objeto não é uma Matrícula válida.") 
-
-        if self.status != "ABERTA": # Validação de status
-            raise ValueError("Turma fechada.")
+        if matricula in self.__matriculas:
+             raise ValueError("Aluno já está na lista desta turma.")
         
-        if len(self) >= self.vagas: # Validação de vagas
-            raise ValueError("Turma lotada.")
-        
-        if matricula in self.__matriculas: # Validação para não haver aluno repetido
-             raise ValueError("Aluno já matriculado.")
-
         self.__matriculas.append(matricula) # Adiciona a matrícula após passar por todas as validações
 
     def __len__(self):
