@@ -25,13 +25,13 @@ Não cria a matrícula; isso é feito pelo sistema.
             status=status,
             local=local,
         )
-        self.__matriculas = []
+        self.matriculas = []
         self.curso = curso
 
    
     @property
     def matriculas(self):
-        return self.__matriculas[:]
+        return self.matriculas[:]
 
     @matriculas.setter
     def matriculas(self, lista):
@@ -54,13 +54,13 @@ Não cria a matrícula; isso é feito pelo sistema.
     def adicionar_matricula(self, matricula):
         from .matricula import Matricula # Importação local para evitar erro de importação circular 
 
-        if matricula in self.__matriculas:
+        if matricula in self.matriculas:
              raise ValueError("Aluno já está na lista desta turma.")
         
-        self.__matriculas.append(matricula) # Adiciona a matrícula após passar por todas as validações
+        self.matriculas.append(matricula) # Adiciona a matrícula após passar por todas as validações
 
     def __len__(self):
-       return len(self.__matriculas)
+       return len(self.matriculas)
 
     def __str__(self): # Método __str__ que retorna uma string com código da turma, nome do curso, semestre e ocupação
         return (
