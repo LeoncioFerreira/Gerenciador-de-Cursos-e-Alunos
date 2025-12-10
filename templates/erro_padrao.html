@@ -1,0 +1,9 @@
+<!-- Html para erros -->
+{% extends "base.html" %} {% block content %}
+
+<div class="alert alert-danger mt-4">{{ mensagem }}</div>
+
+<!-- Pagina de erro padrão para matriculas-->
+<a href="/matriculas" class="btn btn-secondary mt-3">Voltar</a>
+
+{% endblock %}

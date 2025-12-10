@@ -1,0 +1,29 @@
+{% extends "cad_padrao.html" %} {% set titulo = "Lançar Nota" %} {% set voltar =
+"/matriculas" %} {% block campos %}
+
+<div class="mb-3">
+  <label class="form-label">Aluno:</label>
+  <input
+    type="text"
+    class="form-control"
+    value="{{ matricula.aluno }}"
+    readonly
+  />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Turma:</label>
+  <input
+    type="text"
+    class="form-control"
+    value="{{ matricula.turma }}"
+    readonly
+  />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Nota (0 a 10):</label>
+  <input type="number" name="nota" step="0.1" class="form-control" />
+</div>
+
+{% endblock %}

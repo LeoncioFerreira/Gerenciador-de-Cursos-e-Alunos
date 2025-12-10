@@ -1,0 +1,44 @@
+{% extends "tabela_padrao.html" %} {% block title %}Matrículas{% endblock %} {%
+block titulo_tabela %}Matrículas Registradas{% endblock %} {% block cabecalho %}
+<th>Aluno</th>
+<th>Turma</th>
+<th>Nota</th>
+<th>Frequência</th>
+<th>Status</th>
+<th>Ações</th>
+{% endblock %} {% block linhas %} {% for m in matriculas %}
+<tr>
+  <td class="align-middle">{{ m.aluno }}</td>
+  <td class="align-middle">{{ m.turma }}</td>
+  <td class="align-middle">{{ m.nota if m.nota is not none else "-" }}</td>
+  <td class="align-middle">
+    {{ m.frequencia if m.frequencia is not none else "-" }}
+  </td>
+  <td class="align-middle">{{ m.status }}</td>
+
+  <td class="align-middle">
+    <a href="/matriculas/nota/{{ loop.index0 }}" class="btn btn-primary btn-sm">
+      Lançar Nota
+    </a>
+
+    <a
+      href="/matriculas/frequencia/{{ loop.index0 }}"
+      class="btn btn-info btn-sm text-white"
+    >
+      Lançar Frequência
+    </a>
+
+    <a
+      href="/matriculas/trancar/{{ loop.index0 }}"
+      class="btn btn-warning btn-sm"
+      onclick="return confirm('Deseja trancar esta matrícula?');"
+    >
+      Trancar
+    </a>
+  </td>
+</tr>
+{% endfor %} {% endblock %} {% block botoes %}
+<a href="/matriculas/cadastrar" class="btn btn-success btn-lg"
+  >Nova Matrícula</a
+>
+{% endblock %}

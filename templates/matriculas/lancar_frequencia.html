@@ -1,0 +1,35 @@
+{% extends "cad_padrao.html" %} {% set titulo = "Lançar Frequência" %} {% set
+voltar = "/matriculas" %} {% block campos %}
+
+<div class="mb-3">
+  <label class="form-label">Aluno:</label>
+  <input
+    class="form-control"
+    value="{{ matricula.aluno }}"
+    readonly
+    style="background-color: #444; color: #ccc; border: 1px solid #555"
+  />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Turma:</label>
+  <input
+    class="form-control"
+    value="{{ matricula.turma }}"
+    readonly
+    style="background-color: #444; color: #ccc; border: 1px solid #555"
+  />
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Frequência (%):</label>
+  <input
+    type="number"
+    name="frequencia"
+    step="0.1"
+    class="form-control"
+    required
+  />
+</div>
+
+{% endblock %}

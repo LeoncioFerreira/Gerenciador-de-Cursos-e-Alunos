@@ -1,0 +1,26 @@
+{% extends "cad_padrao.html" %} {% set titulo = "Cadastrar Matrícula" %} {% set
+voltar = "/matriculas" %} {% block campos %}
+<!-- Aluno -->
+<div class="mb-3">
+  <label class="form-label">Aluno:</label>
+  <select name="aluno" class="form-select" required>
+    {% for a in alunos %}
+    <option value="{{ a.matricula }}">{{ a.matricula }} - {{ a.nome }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- Turma -->
+<div class="mb-3">
+  <label class="form-label">Turma:</label>
+  <select name="turma" class="form-select" required>
+    {% for t in turmas %}
+    <option value="{{ t.codigo_oferta }}">
+      {{ t.codigo_oferta }} - {{ t.nome_curso if t.nome_curso else
+      t.codigo_curso }}
+    </option>
+    {% endfor %}
+  </select>
+</div>
+
+{% endblock %}
