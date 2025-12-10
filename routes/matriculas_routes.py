@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_alunos, carregar_turmas, carregar_matriculas
 
 # Importamos os serviços para executar as ações post
-from src.services import (
+from src.services.servicos import (
     servico_criar_matricula, 
     servico_atualizar_nota, 
     servico_atualizar_frequencia, 
@@ -13,7 +13,7 @@ matriculas_bp = Blueprint("matriculas", __name__)
 
 @matriculas_bp.route("/")
 def listar():
-    return render_template("matriculas/matriculas.html", matriculas=carregar_matriculas())
+    return render_template("matriculas/matriculas.html", matriculas=carregar_matriculas(),alunos=carregar_alunos())
 
 @matriculas_bp.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar():

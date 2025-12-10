@@ -8,7 +8,15 @@ block titulo_tabela %}Matrículas Registradas{% endblock %} {% block cabecalho %
 <th>Ações</th>
 {% endblock %} {% block linhas %} {% for m in matriculas %}
 <tr>
-  <td class="align-middle">{{ m.aluno }}</td>
+  <td class="align-middle">
+    <strong>{{ m.aluno }}</strong>
+    {% for a in alunos %}
+        {% if a.matricula|string == m.aluno|string %}
+            {{ a.nome }}
+        {% endif %}
+    {% endfor %}
+  </td>
+  </td>
   <td class="align-middle">{{ m.turma }}</td>
   <td class="align-middle">{{ m.nota if m.nota is not none else "-" }}</td>
   <td class="align-middle">

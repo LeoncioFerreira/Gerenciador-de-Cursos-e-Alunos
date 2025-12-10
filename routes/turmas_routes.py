@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_cursos, carregar_turmas, salvar_turmas
 from src.models.turma import Turma
 from src.models.curso import Curso
+from src.services.servicos import servico_criar_turma
 
 turmas_bp = Blueprint("turmas", __name__)
 
@@ -19,52 +20,27 @@ def listar_turmas():
 
 @turmas_bp.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar_turma():
-    cursos = carregar_cursos()
-
     if request.method == "POST":
         try:
-            f = request.form # simplificando request
-            
-            # 1. Busca o curso selecionado para validação
-            dados_curso = next((c for c in cursos if c["codigo"] == f["codigo_curso"]), None)
-            if not dados_curso: raise ValueError("Curso não encontrado.")
-
-            # Instancia objetos APENAS para validar as regras de negócio
-            # Usa o Curso do módulo curso.py para validar os dados do curso
-            obj_curso = Curso(**dados_curso)
-            
-            # Usa a turma do módulo turma.py para validar atributos de turma
-            nova_turma = Turma(
-                codigo_oferta=f["codigo_oferta"].strip(),
-                curso=obj_curso,
-                semestre=f["semestre"].strip(),
-                dias_horarios={f["dia"]: [[f["inicio"], f["fim"]]]},
-                vagas=int(f["vagas"]),
-                local=f.get("local", "").strip()
+            f = request.form
+            # --- CORREÇÃO AQUI ---
+            # Delega tudo para o serviço. Ele valida unicidade e existência do curso.
+            servico_criar_turma(
+                cod_oferta=f["codigo_oferta"],
+                cod_curso=f["codigo_curso"],
+                semestre=f["semestre"],
+                vagas=f["vagas"],
+                dia=f["dia"],
+                inicio=f["inicio"],
+                fim=f["fim"],
+                local=f.get("local", "")
             )
-
-            # Persistência: Constrói o dict final para salvar no JSON
-            # (Já validado pelos objetos acima)
-            nova_turma_dict = {
-                "codigo_oferta": nova_turma.codigo_oferta,
-                "codigo_curso": nova_turma.codigo_curso,
-                "semestre": nova_turma.semestre,
-                "dias_horarios": nova_turma.dias_horarios,
-                "vagas": nova_turma.vagas,
-                "status": nova_turma.status,
-                "local": nova_turma.local,
-            }
-
-            turmas = carregar_turmas()
-            turmas.append(nova_turma_dict)
-            salvar_turmas(turmas)
-            
             return redirect("/turmas")
 
         except Exception as e:
-            return render_template("turmas/cad_turma.html", cursos=cursos, erro=str(e))
+            return render_template("turmas/cad_turma.html", cursos=carregar_cursos(), erro=str(e))
 
-    return render_template("turmas/cad_turma.html", cursos=cursos)
+    return render_template("turmas/cad_turma.html", cursos=carregar_cursos())
 
 @turmas_bp.route("/editar/<codigo_oferta>", methods=["GET", "POST"])
 def editar_turma(codigo_oferta):
@@ -74,18 +50,31 @@ def editar_turma(codigo_oferta):
     if not turma: return "Turma não encontrada", 404
 
     if request.method == "POST":
-        f = request.form
-        # Atualiza os dados diretamente no dicionário
-        turma.update({
-            "semestre": f["semestre"],
-            "codigo_curso": f["codigo_curso"],
-            "vagas": int(f["vagas"]),
-            "local": f.get("local", ""),
-            "dias_horarios": {f["dia"]: [[f["inicio"], f["fim"]]]}
-        })
-        salvar_turmas(turmas)
-        return redirect("/turmas")
+        f = request.form # simplificando request
+            
+        try:
+                # Tenta converter e guarda na variável
+                vagas_int = int(f["vagas"])
+                
+                # Atualiza os dados (observe que o alinhamento é igual ao da linha de cima)
+                turma.update({
+                    "semestre": f["semestre"],
+                    "codigo_curso": f["codigo_curso"],
+                    "vagas": vagas_int, # USA A VARIÁVEL JÁ CONVERTIDA AQUI
+                    "local": f.get("local", ""),
+                    "dias_horarios": {f["dia"]: [[f["inicio"], f["fim"]]]}
+                })
+                
+                salvar_turmas(turmas)
+                return redirect("/turmas")
+            
+        except ValueError:
+                return render_template("turmas/editar_turma.html", 
+                                    turma=turma, 
+                                    cursos=carregar_cursos(), 
+                                    erro="O campo 'Vagas' deve ser um número inteiro.")
 
+# Retorno do get(fora do if/else do POST)
     return render_template("turmas/editar_turma.html", turma=turma, cursos=carregar_cursos())
 
 @turmas_bp.route("/excluir/<codigo_oferta>")

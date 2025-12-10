@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_alunos, salvar_alunos
 from src.models.aluno import Aluno
+from src.services.servicos import servico_criar_aluno
 
 alunos_bp = Blueprint("alunos", __name__)
 # Lista alunoa
@@ -18,21 +19,13 @@ def cadastrar_aluno():
         email = request.form["email"]
 
         try:
-            obj = Aluno(nome, email, matricula)  # valida via classe Aluno
-        except Exception as e:
+            servico_criar_aluno(nome, email, matricula)
+            
+            return redirect("/alunos")
+
+        except ValueError as e:
             return render_template("alunos/cad_aluno.html", erro=str(e))
-
-        novo = {
-            "matricula": obj.matricula,
-            "nome": obj.nome,
-            "email": obj.email
-        }
-
-        alunos = carregar_alunos()
-        alunos.append(novo)
-        salvar_alunos(alunos)
-
-        return redirect("/alunos")
+        
 
     return render_template("alunos/cad_aluno.html")
 
@@ -40,33 +33,39 @@ def cadastrar_aluno():
 @alunos_bp.route("/editar/<matricula>", methods=["GET", "POST"])
 def editar_aluno(matricula):
     alunos = carregar_alunos()
-    aluno = next((a for a in alunos if a["matricula"] == matricula), None)
+   
+    try:
+        mat_busca = int(matricula)
+    except ValueError:
+        return redirect("/alunos") # Se não for número, volta
 
-    if not aluno:
-        return redirect("/alunos")
+    aluno = next((a for a in alunos if a["matricula"] == mat_busca), None)
+
+    if not aluno: return redirect("/alunos")
 
     if request.method == "POST":
-        nome = request.form["nome"]
-        email = request.form["email"]
-
         try:
-            temp = Aluno(nome, email, matricula)
+            temp = Aluno(request.form["nome"], request.form["email"], str(matricula))
+            aluno["nome"] = temp.nome
+            aluno["email"] = temp.email
+            salvar_alunos(alunos)
+            return redirect("/alunos")
         except Exception as e:
-            return render_template("alunos/editar_aluno.html",
-                                   aluno=aluno, erro=str(e))
-
-        aluno["nome"] = temp.nome
-        aluno["email"] = temp.email
-
-        salvar_alunos(alunos)
-        return redirect("/alunos")
+            return render_template("alunos/editar_aluno.html", aluno=aluno, erro=str(e))
 
     return render_template("alunos/editar_aluno.html", aluno=aluno)
 
 # Remove aluno
 @alunos_bp.route("/remover/<matricula>")
 def remover_aluno(matricula):
+    try:
+        mat_busca = int(matricula) # Converte pra número
+    except ValueError:
+        return redirect("/alunos")
+        
     lista = carregar_alunos()
-    nova_lista = [a for a in lista if a["matricula"] != matricula]
+    # Remove quem tiver o número igual
+    nova_lista = [a for a in lista if a["matricula"] != mat_busca]
+    
     salvar_alunos(nova_lista)
     return redirect("/alunos")

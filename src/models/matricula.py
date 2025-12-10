@@ -47,21 +47,38 @@ Responsabilidades:
 
     @nota.setter
     def nota(self, valor):
-        if valor is not None: # Validação para a nota ser entre 0 e 10
-            if not (0 <= valor <= 10): 
+        if valor is not None:
+            try:
+                # --- CORREÇÃO: Força virar número antes de comparar ---
+                valor_float = float(valor)
+            except ValueError:
+                raise ValueError("A nota deve ser um número válido.")
+
+            if not (0 <= valor_float <= 10): 
                 raise ValueError("A nota deve estar entre 0 e 10.")
-        self.__nota = valor
-    
+            
+            self.__nota = valor_float # Salva o número, não o texto
+        else:
+            self.__nota = None
     @property
     def frequencia(self):
         return self.__frequencia
 
     @frequencia.setter
     def frequencia(self, valor):
-        if valor is not None: # Validação para a frequencia ser entre 0 e 100%
-            if not (0 <= valor <= 100):
+        if valor is not None:
+            try:
+                # --- CORREÇÃO: Força virar número antes de comparar ---
+                valor_float = float(valor)
+            except ValueError:
+                raise ValueError("A frequência deve ser um número válido.")
+
+            if not (0 <= valor_float <= 100):
                 raise ValueError("A frequência deve estar entre 0 e 100%.")
-        self.__frequencia = valor
+            
+            self.__frequencia = valor_float # Salva o número
+        else:
+            self.__frequencia = None
 
     def situacao(self):
         if self.nota is None or self.frequencia is None:
@@ -81,6 +98,13 @@ Responsabilidades:
                 raise Exception("Fora do prazo de trancamento.")
     
             self.status = "TRANCADA"
+        
+    # Adicione isso na classe Matricula para satisfazer o PDF 
+    def lancar_nota(self, valor):
+        self.nota = valor  # Chama o seu setter que já valida tudo
+        
+    def lancar_frequencia(self, valor):
+        self.frequencia = valor  # Chama o seu setter que já valida tudo
 
     def __eq__(self, outro):
         # Matrículas são iguais se:

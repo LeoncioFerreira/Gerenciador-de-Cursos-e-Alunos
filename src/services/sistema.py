@@ -38,8 +38,7 @@ def intervalos_se_chocam(i1, i2): # Função que recebe horario de inicio e fim 
 def matricular(aluno: Aluno, turma: Turma):
     
     # Valida Pré-requisitos
-    if hasattr(turma.curso, 'pre_requisitos'):
-        for cod_pre in turma.curso.pre_requisitos:
+    for cod_pre in turma.curso.pre_requisitos:
             if not aluno.aprovou(cod_pre):
                 raise PreRequisitoError(f"Pré-requisito não atendido: {cod_pre}")
     

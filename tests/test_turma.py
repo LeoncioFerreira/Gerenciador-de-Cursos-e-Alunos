@@ -20,14 +20,14 @@ def test_matricular_ok():
     a = Aluno("João", "j@test.com", "1")
     m = Matricula(a, t)
 
-    t.matricular(m)
+    t.adicionar_matricula(m)
     assert len(t) == 1 # Retorna 1 inscrito na turma 
 
 def test_matricula_tipo_errado():
     # Testa erro ao tentar matricular algo que não seja objeto Matricula
     t = criar_turma_padrao()
     with pytest.raises(TypeError): # Retorna erro pois só aceita objetos do tipo Matricula
-        t.matricular("batata") # Deve dar erro porque não é um objeto Matricula
+        t.adicionar_matricula("batata") # Deve dar erro porque não é um objeto Matricula
 
 def test_turma_lotada():
     # Preenche a turma até o limite de vagas e verifica se impede nova matrícula
@@ -42,9 +42,9 @@ def test_turma_lotada():
     m2 = Matricula(a2, t)
     m3 = Matricula(a3, t)
 
-    t.matricular(m1)
-    t.matricular(m2)
+    t.adicionar_matricula(m1)
+    t.adicionar_matricula(m2)
 
     with pytest.raises(ValueError):
-        t.matricular(m3) # Retorna erro pois a turma tem 2 vagas e tentamos matricular 3 alunos
+        t.adicionar_matricula(m3) # Retorna erro pois a turma tem 2 vagas e tentamos matricular 3 alunos
 
