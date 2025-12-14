@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Análise Detalhada: Turma {{ codigo }}</h2>
+    <a href="/relatorios" class="btn btn-secondary">Voltar</a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-dark text-white">Situação da Turma</div>
+        <div
+          class="card-body text-center d-flex flex-column justify-content-center"
+        >
+          <h1 class="display-3 fw-bold">{{ aprovacao.taxa }}%</h1>
+          <p class="text-muted text-uppercase">Taxa de Aprovação</p>
+          <hr />
+          <div class="row mt-3">
+            <div class="col-6 border-end">
+              <h4 class="text-success fw-bold">{{ aprovacao.aprovados }}</h4>
+              <small class="text-uppercase">Aprovados</small>
+            </div>
+            <div class="col-6">
+              <h4 class="text-primary fw-bold">{{ aprovacao.total }}</h4>
+              <small class="text-uppercase">Total Alunos</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-info text-white">
+          Distribuição e Estatísticas
+        </div>
+        <div class="card-body">
+          <h6 class="text-muted mb-3">Indicadores Estatísticos</h6>
+          <div class="row text-center mb-4">
+            <div class="col-3">
+              <span class="d-block text-primary fw-bold"
+                >{{ notas.media }}</span
+              >
+              <small style="font-size: 0.75rem">Média</small>
+            </div>
+            <div class="col-3">
+              <span class="d-block text-secondary fw-bold"
+                >{{ notas.mediana }}</span
+              >
+              <small style="font-size: 0.75rem">Mediana</small>
+            </div>
+            <div class="col-3">
+              <span class="d-block text-warning text-dark fw-bold"
+                >{{ notas.desvio_padrao }}</span
+              >
+              <small style="font-size: 0.75rem">Desvio Padrão</small>
+            </div>
+            <div class="col-3">
+              <span class="d-block text-success fw-bold"
+                >{{ notas.maxima }}</span
+              >
+              <small style="font-size: 0.75rem">Máxima</small>
+            </div>
+          </div>
+
+          <hr />
+
+          <h6 class="text-muted mb-3">Distribuição de Notas (Quantidade)</h6>
+          <ul class="list-group">
+            {% for faixa, qtd in notas.distribuicao.items() %}
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center py-2"
+            >
+              {{ faixa }}
+              <span class="badge bg-light text-dark border rounded-pill"
+                >{{ qtd }}</span
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

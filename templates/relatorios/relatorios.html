@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Relatórios Consolidados</h1>
+
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      Top N Alunos (Melhores CRs)
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>CR</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aluno in top_alunos %}
+          <tr>
+            <td>{{ loop.index }}º</td>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.matricula }}</td>
+            <td><strong>{{ aluno.cr }}</strong></td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" class="text-center">Sem dados suficientes.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header bg-primary text-white">Desempenho por Turma</div>
+    <div class="card-body">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Turma</th>
+            <th>Cursos</th>
+            <th class="text-center">Alunos</th>
+            <th class="text-center">Taxa Aprovação</th>
+            <th class="text-center">Média Notas</th>
+            <th class="text-end">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in stats_turmas %}
+          <tr>
+            <td><strong>{{ t.codigo }}</strong></td>
+            <td>{{ t.disciplina }}</td>
+            <td class="text-center">{{ t.total_alunos }}</td>
+
+            <td class="text-center">
+              <span
+                class="badge rounded-pill {% if t.taxa_aprovacao < 50 %} bg-danger {% elif t.taxa_aprovacao < 75 %} bg-warning text-dark {% else %} bg-success {% endif %}"
+                style="font-size: 0.9rem; padding: 8px 12px"
+              >
+                {{ t.taxa_aprovacao }}%
+              </span>
+            </td>
+
+            <td class="text-center">{{ t.media_notas }}</td>
+
+            <td class="text-end">
+              <a
+                href="/relatorios/detalhe/turma/{{ t.codigo }}"
+                class="btn btn-sm btn-primary"
+              >
+                Detalhes
+              </a>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="text-center">Nenhuma turma encontrada.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
