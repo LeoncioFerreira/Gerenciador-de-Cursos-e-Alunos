@@ -14,8 +14,7 @@
 
 Este projeto implementa um **Gerenciador de Cursos e Alunos**, conforme o Tema 6 da disciplina de **Programação Orientada a Objetos (UFCA)**.
 
-O sistema deverá contemplar:
-
+O sistema contempla:
 * Cursos e pré-requisitos
 * Ofertas de disciplinas (turmas) com horários, vagas e status
 * Alunos e histórico acadêmico
@@ -24,213 +23,141 @@ O sistema deverá contemplar:
 * Cálculo de situação acadêmica
 * Relatórios gerais (taxa de aprovação, top N alunos, etc.)
 
+## 📸 Screenshots da Aplicação
 
-## 🎯 Status do Desenvolvimento: Semana 3 (Concluída)
+A seguir estão algumas telas da aplicação em execução,
+destacando a navegação principal, regras acadêmicas
+e relatórios gerenciais.
 
-A entrega desta semana focou em **herança**, **relacionamentos** e **persistência**.
+### Dashboard Principal
+![Dashboard](screenshots/dashboard.png)
 
-### ✔ 1. Herança funcional
-* `Pessoa` → `Aluno`
-* `Oferta` → `Turma`
+### Relatórios Acadêmicos
+![Relatórios](screenshots/relatorios.png)
 
-### ✔ 2. Relacionamentos entre classes
-A classe `Matricula` gerencia a ligação **Aluno ↔ Turma**, validando:
-* Vagas disponíveis
-* Choque de horário
-* Status da turma (`ABERTA`/`FECHADA`)
+### Gestão de Matrículas
+![Matrículas](screenshots/matriculas.png)
 
-### ✔ 3. Persistência simples (JSON)
-Módulo `persistencia.py` implementado com:
-* `salvar_*()` e `carregar_*()`
-* Estrutura padronizada em `data/*.json`
 
-### ✔ 4. Relatório básico
-A função `alunos_por_turma(turma)` gera listagem contendo:
-* Nome, Matrícula, Nota e Frequência
+## 🎯 Status do Desenvolvimento
 
-### ✔ 5. Testes automatizados (pytest)
-Cobertura de testes para:
-* **Aluno:** CR e método `__lt__`
-* **Curso:** Validações e `__str__`
-* **Turma:** Vagas, `__len__`, matrícula
-* **Matricula:** Validação e igualdade (`__eq__`)
-* **Sistema:** Fluxo de matrícula, tratamento de erros e relatórios
-* **Persistência:** Leitura e escrita de JSON
+**Entrega Final — Semana 5 (Concluída)**  
+
+O projeto encontra-se **totalmente implementado**, atendendo aos requisitos funcionais e técnicos definidos no **Tema 6** da disciplina de Programação Orientada a Objetos.
 
 ---
 
-# 🧩 UML TEXTUAL
-⚠️ Importante:
-Esta UML representa o *planejamento completo* do sistema, incluindo funcionalidades 
-que serão adicionadas nas próximas semanas (4 e 5).
+## 🧠 Conceitos de Programação Orientada a Objetos Aplicados
 
-A seguir, a UML textual contendo **classes, atributos, métodos e relacionamentos**.
+### ✔ Herança
+- `Pessoa → Aluno`
+- `Oferta → Turma`
+
+### ✔ Encapsulamento
+- Uso extensivo de `@property` para validação de:
+  - Nota (0–10)
+  - Frequência (0–100)
+  - Vagas (≥ 0)
+  - Status (`ABERTA` / `FECHADA`)
+  - CR ≥ 0
+
+### ✔ Métodos Especiais
+- `Aluno.__lt__` → ordenação por CR  
+- `Turma.__len__` → ocupação da turma  
+- `Curso.__str__`  
+- `Matricula.__eq__`  
+- `__str__` em múltiplas entidades  
+
+---
+## 🧪 Testes Automatizados
+
+O projeto possui **testes automatizados com pytest**, cobrindo:
+
+- Criação e validação de **Aluno**, **Curso**, **Turma** e **Matrícula**
+- Regras de matrícula:
+  - Pré-requisito não atendido
+  - Choque de horário
+  - Turma lotada
+  - Turma fechada
+- Cálculo de CR
+- Situação acadêmica:
+  - APROVADO
+  - REPROVADO_POR_NOTA
+  - REPROVADO_POR_FREQUENCIA
+  - CURSANDO
+- Relatórios acadêmicos
+- Persistência em JSON
+
+➡️ Total de testes: **≥ 15**, conforme exigido no edital.
 
 ---
 
-## **Classe: Pessoa**
+## 🧩 UML Textual (Modelo Final)
 
-### **Atributos**
+### Classe: Pessoa
+- `nome`
+- `email`
+- `__str__()`
 
-* `nome: str`
-* `email: str`
+### Classe: Aluno (Pessoa)
+- `matricula`
+- `historico`
+- `matriculas_ativas`
+- `calcular_cr()`
+- `tem_choque()`
+- `__lt__()`
 
-### **Métodos**
+### Classe: Curso
+- `codigo`
+- `nome`
+- `carga_horaria`
+- `pre_requisitos`
+- `__str__()`
 
-* `__str__()`
+### Classe: Oferta
+- `codigo_oferta`
+- `codigo_curso`
+- `semestre`
+- `dias_horarios`
+- `vagas`
+- `status`
+- `local`
+- `abrir()`
+- `fechar()`
 
-### **Relacionamentos**
+### Classe: Turma (Oferta)
+- `curso (associação)`
+- `matriculas`
+- `tem_vaga()`
+- `__len__()`
+- `__str__()`
 
-* **Superclasse de → Aluno**
+### Classe: Matricula
+- `aluno`
+- `turma`
+- `nota`
+- `frequencia`
+- `status`
+- `situacao()`
+- `trancar()`
+- `__eq__()`
+- `__str__()`
 
----
-
-## **Classe: Aluno (subclasse de Pessoa)**
-
-### **Atributos**
-
-* `matricula: str`
-* `historico: list[Matricula]`
-* `matriculas_ativas: list[Matricula]`
-
-### **Métodos (atuais + futuros)**
-
-* `adicionar_ao_historico(matricula)`
-* `adicionar_matricula_ativa(matricula)`
-* `tem_choque(nova_turma)` *(choque é verificado aqui agora)*
-* `calcular_cr()`
-* `verificar_prerequisito_cumprido(curso)` *(futuro)*
-* `__lt__(other)`
-
-### **Relacionamentos**
-
-* **Subclasse de Pessoa**
-* **1:N com Matricula**
-
----
-
-## **Classe: Curso**
-
-### **Atributos**
-
-* `codigo: str`
-* `nome: str`
-* `carga_horaria: int`
-* `pre_requisitos: list[str]`
-
-### **Métodos (atuais + futuros)**
-
-* `validar_prerequisitos()` *(futuro)*
-* `__str__()`
-
-### **Relacionamentos**
-
-* **1:N com Turma**
-
----
-
-## **Classe: Oferta**
-
-*(classe base para Turma)*
-
-### **Atributos**
-
-* `codigo_oferta: str`
-* `codigo_curso: str`
-* `semestre: str`
-* `dias_horarios: dict[str, list[(inicio, fim)]]`
-* `vagas: int`
-* `status: str`
-* `local: str | None`
-
-### **Métodos**
-
-* `abrir()`
-* `fechar()`
-* `__str__()`
-
-### **Relacionamentos**
-
-* **Superclasse de Turma**
-* **N:1 com Curso**
+### Classe: Configuracoes
+- `nota_minima_aprovacao`
+- `frequencia_minima`
+- `data_limite_trancamento`
+- `max_turmas_por_aluno`
+- `top_n_alunos`
 
 ---
+## 📐 Diagrama de Classes (UML)
 
-## **Classe: Turma (subclasse de Oferta)**
+O diagrama abaixo ilustra a estrutura das classes, demonstrando a aplicação de **Herança** (Pessoa/Aluno, Oferta/Turma) e as relações de **Associação** entre as entidades acadêmicas.
 
-### **Atributos**
-
-* `curso: Curso`
-* `matriculas: list[Matricula]`
-
-### **Métodos (atuais + futuros)**
-
-* `tem_vaga()`
-* `matricular(matricula)`
-* `__len__()`
-* `__str__()`
-* `calcular_taxa_aprovacao()` *(futuro)*
-* `calcular_distribuicao_notas()` *(futuro)*
-
-### **Relacionamentos**
-
-* **Subclasse de Oferta**
-* **1:N com Matricula**
-
+![Diagrama de Classes UML](screenshots/diagrama_classes.png)
+> Observação: A classe `Configuracoes` representa regras de infraestrutura e foi documentada textualmente, não sendo incluída no diagrama visual para manter o foco no domínio acadêmico principal.
 ---
-
-## **Classe: Matricula**
-
-### **Atributos**
-
-* `aluno: Aluno`
-* `turma: Turma`
-* `nota: float | None`
-* `frequencia: float | None`
-* `situacao: str` *(futuro)*
-
-### **Métodos (atuais + futuros)**
-
-* `lancar_nota(valor)` *(futuro)*
-* `lancar_frequencia(valor)` *(futuro)*
-* `calcular_situacao(config)` *(futuro)*
-* `trancar(data_atual, config)` *(futuro)*
-* `__eq__()`
-* `__str__()`
-
-### **Relacionamentos**
-
-* **N:1 com Aluno**
-* **N:1 com Turma**
-* **Associação Aluno ↔ Turma**
-
----
-
-## **Classe: Configuracoes**
-
-### **Atributos**
-
-* `nota_minima_aprovacao`
-* `frequencia_minima`
-* `data_limite_trancamento`
-* `max_turmas_por_aluno`
-* `top_n_alunos`
-
-### **Métodos (atuais + futuros)**
-
-* `carregar()`
-* `salvar()`
-* `obter_parametro(chave)` *(futuro)*
-
-### **Relacionamentos**
-
-* **Dependência com Matricula**
-* **Dependência com Sistema**
-
----
-
-
-
 # 🔗 Tabela Resumida de Relacionamentos
 
 | Classe Origem | Tipo de Relação | Classe Destino  | Descrição |
@@ -245,44 +172,113 @@ A seguir, a UML textual contendo **classes, atributos, métodos e relacionamento
 
 ---
 
-# 📁 Estrutura inicial do projeto
+# 📁 Estrutura do projeto
 
 ```
 Gerenciador-de-Cursos-e-Alunos/
 │
-├── data/
-│   └── settings.json
+├── data/                         # Arquivos de persistência em JSON
+│   ├── alunos.json               # Dados dos alunos cadastrados
+│   ├── cursos.json               # Catálogo de cursos
+│   ├── matriculas.json           # Matrículas (Aluno ↔ Turma)
+│   ├── turmas.json               # Turmas/ofertas de disciplinas
+│   └── settings.json             # Configurações acadêmicas do sistema
 │
-├── src/
-│   ├── __init__.py
-│   ├── aluno.py
-│   ├── configuracoes.py
-│   ├── curso.py
-│   ├── matricula.py
-│   ├── oferta.py
-│   ├── pessoa.py
-│   ├── persistencia.py
-│   ├── sistema.py
-│   └── turma.py
+├── routes/                       # Rotas Flask (camada de interface)
+│   ├── alunos_routes.py          # Rotas de CRUD de alunos
+│   ├── cursos_routes.py          # Rotas de CRUD de cursos
+│   ├── matriculas_routes.py      # Rotas de matrícula, nota e frequência
+│   ├── relatorios_routes.py      # Rotas de relatórios acadêmicos
+│   └── turmas_routes.py          # Rotas de CRUD de turmas
+|
+├── screenshots/                  # Imagens da aplicação (README)
+│   ├── dashboard.png             # Tela inicial / Dashboard
+│   ├── diagrama_classes.png      # Diagrama de classes UML
+│   ├── matriculas.png            # Tela de gestão de matrículas
+│   └── relatorios.png            # Tela de relatórios acadêmicos
 │
-├── tests/
-│   ├── test_aluno.py
-│   ├── test_curso.py
-│   ├── test_matricula.py
-│   ├── test_sistema.py
-│   ├── test_turma.py
-│   └── test_persistencia.py 
+├── src/                          # Núcleo da aplicação
+│   ├── infra/                    # Camada de infraestrutura
+│   │   ├── configuracoes.py      # Leitura e acesso ao settings.json
+│   │   ├── persistencia.py       # Funções de salvar/carregar JSON
+│   │   └── __init__.py
+│   │
+│   ├── models/                   # Entidades do domínio (POO)
+│   │   ├── aluno.py              # Classe Aluno (herda de Pessoa)
+│   │   ├── curso.py              # Classe Curso
+│   │   ├── matricula.py          # Classe Matricula (Aluno ↔ Turma)
+│   │   ├── oferta.py             # Classe base Oferta
+│   │   ├── pessoa.py             # Classe base Pessoa
+│   │   ├── turma.py              # Classe Turma (herda de Oferta)
+│   │   └── __init__.py
+│   │
+│   ├── services/                 # Regras de negócio do sistema
+│   │   ├── aluno_service.py      # Serviços relacionados a alunos
+│   │   ├── curso_service.py      # Serviços relacionados a cursos
+│   │   ├── matricula_service.py  # Serviços de matrícula, nota e frequência
+│   │   ├── relatorio_service.py  # Serviços de relatórios acadêmicos
+│   │   ├── sistema.py            # Coordenador central das regras de negócio
+│   │   ├── turma_service.py      # Serviços relacionados a turmas
+│   │   └── __init__.py
+│   │
+│   └── __init__.py
 │
-├── LICENSE
-├── pytest.ini
-├── requirements.txt
-└── README.md
+├── templates/                    # Templates HTML
+│   ├── alunos/                   # Telas relacionadas a alunos
+│   │   ├── alunos.html
+│   │   ├── cad_aluno.html
+│   │   └── editar_aluno.html
+│   │
+│   ├── cursos/                   # Telas relacionadas a cursos
+│   │   ├── cursos.html
+│   │   ├── cad_curso.html
+│   │   └── editar_curso.html
+│   │
+│   ├── matriculas/               # Telas relacionadas a matrículas
+│   │   ├── matriculas.html
+│   │   ├── cad_matriculas.html
+│   │   ├── lancar_frequencia.html
+│   │   └── lancar_nota.html
+│   │
+│   ├── relatorios/               # Telas de relatórios acadêmicos
+│   │   ├── detalhe_turma.html
+│   │   └── relatorios.html
+│   │
+│   ├── turmas/                   # Telas relacionadas a turmas
+│   │   ├── turmas.html
+│   │   ├── cad_turma.html
+│   │   └── editar_turma.html
+│   │
+│   ├── base.html                 # Template base da aplicação
+│   ├── cad_padrao.html           # Layout padrão para formulários de cadastro
+│   ├── edit_padrao.html          # Layout padrão para formulários de edição
+│   ├── erro_padrao.html          # Tela padrão de erro
+│   ├── tabela_padrao.html        # Layout padrão para tabelas
+│   └── index.html                # Página inicial
+│
+├── static/                       # Arquivos estáticos
+│   └── bootstrap.css             # Estilo CSS da aplicação
+│
+├── tests/                        # Testes automatizados (pytest)
+│   ├── test_aluno.py             # Testes da classe Aluno
+│   ├── test_curso.py             # Testes da classe Curso
+│   ├── test_matricula.py         # Testes da classe Matricula
+│   ├── test_persistencia.py      # Testes da camada de persistência
+│   ├── test_sistema.py           # Testes das regras de negócio
+│   └── test_turma.py             # Testes da classe Turma
+│
+├── app.py                        # Arquivo principal da aplicação Flask
+├── pytest.ini                    # Configuração do pytest
+├── requirements.txt              # Dependências do projeto
+├── README.md                     # Documentação do projeto
+├── .flaskenv                     # Variáveis de ambiente do Flask
+└── LICENSE                       # Licença do projeto
+
 
 ```
 ## 🚀 Como Executar o Projeto
 
-A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes da Semana 3.
-
+A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes automatizados do projeto.
 ---
 ### 1️⃣ Clonar o repositório
 
@@ -320,4 +316,15 @@ pytest -v
 Para parar no primeiro erro:
 ```bash
 pytest --maxfail=1
+```
+### 5️⃣ Executar a aplicação Flask
+
+Antes de iniciar a aplicação, certifique-se de que o ambiente virtual esteja ativado e que as dependências já tenham sido instaladas.
+Iniciar o servidor Flask
+```bash
+flask run
+```
+Após a execução, a aplicação estará disponível em:
+```bash
+http://127.0.0.1:5000
 ```
