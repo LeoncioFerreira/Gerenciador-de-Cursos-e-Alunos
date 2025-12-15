@@ -1,7 +1,6 @@
 from src.models.matricula import Matricula
 from src.models.turma import Turma
 from src.models.aluno import Aluno
-from src.infra import config
 """
 Coordenador de regras de aplicação do sistema.
 

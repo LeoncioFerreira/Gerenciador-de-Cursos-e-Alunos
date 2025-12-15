@@ -2,10 +2,24 @@ from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_cursos, carregar_turmas, salvar_turmas
 from src.models.turma import Turma
 from src.models.curso import Curso
-from src.services.servicos import servico_criar_turma
+from src.services.turma_service import servico_criar_turma
+from src.models.curso import Curso
 
+"""
+Módulo de Rotas da Aplicação (Flask)
+
+Responsabilidade:
+- Definir as rotas HTTP da aplicação.
+- Receber dados da interface (formulários HTML).
+- Delegar toda a lógica de negócio para a camada de serviços.
+- Renderizar templates ou redirecionar respostas.
+
+Observação:
+Este módulo NÃO contém regras de negócio.
+Toda validação complexa é realizada nas camadas
+Services e Sistema, respeitando a separação de responsabilidades.
+"""
 turmas_bp = Blueprint("turmas", __name__)
-
 @turmas_bp.route("/")
 def listar_turmas():
     turmas = carregar_turmas()
@@ -50,31 +64,46 @@ def editar_turma(codigo_oferta):
     if not turma: return "Turma não encontrada", 404
 
     if request.method == "POST":
-        f = request.form # simplificando request
+        f = request.form 
             
         try:
-                # Tenta converter e guarda na variável
-                vagas_int = int(f["vagas"])
-                
-                # Atualiza os dados (observe que o alinhamento é igual ao da linha de cima)
-                turma.update({
-                    "semestre": f["semestre"],
-                    "codigo_curso": f["codigo_curso"],
-                    "vagas": vagas_int, # USA A VARIÁVEL JÁ CONVERTIDA AQUI
-                    "local": f.get("local", ""),
-                    "dias_horarios": {f["dia"]: [[f["inicio"], f["fim"]]]}
-                })
-                
-                salvar_turmas(turmas)
-                return redirect("/turmas")
+            # 1. Tenta converter para inteiro (pode falhar se o usuário digitar texto)
+            vagas_int = int(f["vagas"])
             
-        except ValueError:
-                return render_template("turmas/editar_turma.html", 
-                                    turma=turma, 
-                                    cursos=carregar_cursos(), 
-                                    erro="O campo 'Vagas' deve ser um número inteiro.")
+            # 2. Cria o curso fake apenas para satisfazer o construtor
+            curso_fake = Curso("X", "X", 10, []) 
 
-# Retorno do get(fora do if/else do POST)
+            # 3. Cria a Turma temporária. 
+            # SE vagas for negativo ou semestre vazio, a classe Turma lança ValueError AQUI.
+            temp_turma = Turma(
+                codigo_oferta=codigo_oferta,
+                curso=curso_fake,
+                semestre=f["semestre"],
+                dias_horarios={f["dia"]: [[f["inicio"], f["fim"]]]},
+                vagas=vagas_int, 
+                local=f.get("local", "")
+            )
+
+            # 4. Se chegou aqui, os dados são válidos. Atualizamos o dicionário.
+            turma.update({
+                "semestre": temp_turma.semestre,
+                "codigo_curso": f["codigo_curso"], # Mantemos o ID original do curso
+                "vagas": temp_turma.vagas,
+                "local": temp_turma.local,
+                "dias_horarios": temp_turma.dias_horarios
+            })
+            
+            salvar_turmas(turmas)
+            return redirect("/turmas")
+            
+        except ValueError as e:
+            # Captura tanto erro de conversão (int) quanto erro de validação da classe Turma
+            return render_template("turmas/editar_turma.html", 
+                                turma=turma, 
+                                cursos=carregar_cursos(), 
+                                erro=str(e)) # Mostra a mensagem real (ex: "Vagas devem ser positivas")
+
+    # Retorno do GET
     return render_template("turmas/editar_turma.html", turma=turma, cursos=carregar_cursos())
 
 @turmas_bp.route("/excluir/<codigo_oferta>")

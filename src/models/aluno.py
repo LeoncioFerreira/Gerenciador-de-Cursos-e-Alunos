@@ -1,6 +1,4 @@
 from .pessoa import Pessoa
-from src.infra import config
-
 class  Aluno(Pessoa):
     """
 Representa um aluno da instituição.
@@ -39,15 +37,10 @@ Ligação: Aluno → Matricula → Turma.
         return self.__historico[:] # Retorna uma copia segura do historico
     
     def aprovou(self, codigo_curso):
-        corte = config.nota_minima_aprovacao
-
         for mat in self.historico:
-            # Verifica se é o curso requisitado
             if mat.turma.curso.codigo == codigo_curso:
-                # Só conta nota se existir
-                if mat.nota is not None and mat.nota >= corte:
+                if mat.situacao() == "APROVADO":
                     return True
-
         return False
         
     def adicionar_ao_historico(self, matricula):
@@ -116,3 +109,9 @@ Ligação: Aluno → Matricula → Turma.
 
     # Desempate por nome
         return self.nome < other.nome
+    
+    def __eq__(self, other):
+        # Verifica se o 'outro' é um Aluno e se as matrículas são iguais
+        if isinstance(other, Aluno):
+            return self.matricula == other.matricula
+        return False

@@ -1,7 +1,21 @@
 from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_alunos, salvar_alunos
 from src.models.aluno import Aluno
-from src.services.servicos import servico_criar_aluno
+from src.services.aluno_service import servico_criar_aluno
+"""
+Módulo de Rotas da Aplicação (Flask)
+
+Responsabilidade:
+- Definir as rotas HTTP da aplicação.
+- Receber dados da interface (formulários HTML).
+- Delegar toda a lógica de negócio para a camada de serviços.
+- Renderizar templates ou redirecionar respostas.
+
+Observação:
+Este módulo NÃO contém regras de negócio.
+Toda validação complexa é realizada nas camadas
+Services e Sistema, respeitando a separação de responsabilidades.
+"""
 
 alunos_bp = Blueprint("alunos", __name__)
 # Lista alunoa
