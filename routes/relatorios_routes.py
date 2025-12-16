@@ -2,7 +2,9 @@ from flask import Blueprint, render_template
 from src.services.relatorio_service import (
     relatorio_aprovacao_turma, 
     relatorio_notas_turma, 
-    relatorio_top_alunos
+    relatorio_top_alunos,
+    relatorio_ocupacao_turmas,
+    relatorio_alunos_em_risco
 )
 from src.infra.persistencia import carregar_turmas, carregar_cursos
 
@@ -53,11 +55,16 @@ def dashboard():
             "total_alunos": aprovacao["total"]
         })
 
+    ocupacao = relatorio_ocupacao_turmas()
+    risco = relatorio_alunos_em_risco()
+
     return render_template(
-        "relatorios/relatorios.html", 
+        "relatorios/relatorios.html",
         top_alunos=top_alunos,
         stats_turmas=stats_turmas,
-        cursos=cursos
+        cursos=cursos,
+        ocupacao=ocupacao,
+        risco=risco
     )
 
 # Rota detalhada que mostra top n aluno desvio padão meida 

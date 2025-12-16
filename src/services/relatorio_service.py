@@ -132,3 +132,65 @@ def relatorio_top_alunos():
     lista_alunos.sort(reverse=True)
     n = config.top_n_alunos or 5
     return [{"nome": a.nome, "matricula": a.matricula, "cr": round(a.calcular_cr(), 2)} for a in lista_alunos[:n]]
+
+def relatorio_ocupacao_turmas():
+    turmas = carregar_turmas()
+    matriculas = carregar_matriculas()
+    relatorio = []
+
+    for t in turmas:
+        # Conta matrículas ativas (não trancadas) nesta turma
+        ocupadas = sum(
+            1 for m in matriculas
+            if m["turma"] == t["codigo_oferta"] and m["status"] != "TRANCADA"
+        )
+        
+        # Calcula porcentagem para barra de progresso
+        porcentagem = (ocupadas / t["vagas"]) * 100 if t["vagas"] > 0 else 0
+
+        relatorio.append({
+            "codigo": t["codigo_oferta"],
+            "curso": t["codigo_curso"],
+            "ocupadas": ocupadas,
+            "vagas_totais": t["vagas"],
+            "porcentagem": round(porcentagem, 1),
+            "lotada": ocupadas >= t["vagas"]
+        })
+
+    return relatorio
+
+def relatorio_alunos_em_risco():
+    matriculas = carregar_matriculas()
+    alunos = carregar_alunos()
+    
+    # Transforma lista de alunos em dicionario para busca rápida
+    # Chave = Matricula (str), Valor = Dados do Aluno
+    mapa_alunos = {str(a["matricula"]): a for a in alunos}
+
+    alunos_risco = []
+
+    for m in matriculas:
+        # So analisa quem está cursando agora
+        if m["status"] == "CURSANDO":
+            nota = m.get("nota")
+            freq = m.get("frequencia")
+
+            # Verifica se está abaixo da média configurada
+            nota_baixa = (nota is not None and nota < config.nota_minima_aprovacao)
+            freq_baixa = (freq is not None and freq < config.frequencia_minima)
+
+            if nota_baixa or freq_baixa:
+                # Busca no dicionário
+                aluno = mapa_alunos.get(str(m["aluno"]))
+
+                if aluno:
+                    alunos_risco.append({
+                        "nome": aluno["nome"],
+                        "matricula": aluno["matricula"],
+                        "turma": m["turma"],
+                        "nota": nota if nota is not None else "-",
+                        "frequencia": freq if freq is not None else "-",
+                        "motivo": "Nota Baixa" if nota_baixa and not freq_baixa else ("Frequência Baixa" if freq_baixa and not nota_baixa else "Ambos")
+                    })
+
+    return alunos_risco
