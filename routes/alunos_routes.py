@@ -47,16 +47,13 @@ def cadastrar_aluno():
 @alunos_bp.route("/editar/<matricula>", methods=["GET", "POST"])
 def editar_aluno(matricula):
     alunos = carregar_alunos()
-   
-    try:
-        mat_busca = int(matricula)
-    except ValueError:
-        return redirect("/alunos") # Se não for número, volta
+    # Assim ele acha o aluno sendo número ou texto no JSON.
+    aluno = next((a for a in alunos if str(a["matricula"]) == str(matricula)), None)
 
-    aluno = next((a for a in alunos if a["matricula"] == mat_busca), None)
-
-    if not aluno: return redirect("/alunos")
-
+    # Se ainda assim não achar, imprime no terminal para sabermos o motivo
+    if not aluno: 
+        print(f"ERRO: Aluno com matrícula '{matricula}' não encontrado na lista.")
+        return redirect("/alunos")
     if request.method == "POST":
         try:
             temp = Aluno(request.form["nome"], request.form["email"], str(matricula))
@@ -72,14 +69,14 @@ def editar_aluno(matricula):
 # Remove aluno
 @alunos_bp.route("/remover/<matricula>")
 def remover_aluno(matricula):
-    try:
-        mat_busca = int(matricula) # Converte pra número
-    except ValueError:
-        return redirect("/alunos")
-        
-    lista = carregar_alunos()
-    # Remove quem tiver o número igual
-    nova_lista = [a for a in lista if a["matricula"] != mat_busca]
+    lista_alunos = carregar_alunos()
+    # Convertemos tudo para STRING antes de comparar.
+    # Filtramos a lista mantendo apenas quem tem matrícula DIFERENTE da que queremos apagar.
+    nova_lista = [a for a in lista_alunos if str(a["matricula"]) != str(matricula)]
+    
+    # Se o tamanho da lista não mudou, significa que não achou ninguém
+    if len(nova_lista) == len(lista_alunos):
+        print(f"Aviso: Ninguém foi removido. Matrícula {matricula} não encontrada.")
     
     salvar_alunos(nova_lista)
     return redirect("/alunos")

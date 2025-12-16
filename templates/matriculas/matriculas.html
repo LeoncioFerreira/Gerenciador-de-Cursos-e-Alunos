@@ -1,5 +1,56 @@
 {% extends "tabela_padrao.html" %} {% block title %}Matrículas{% endblock %} {%
 block titulo_tabela %}Matrículas Registradas{% endblock %} {% block cabecalho %}
+<div class="card bg-secondary text-white border-0 shadow mb-4 overflow-hidden">
+  <div class="card-body p-4">
+    <div class="row align-items-center">
+      <!-- Tabela de Parâmetros do Sistema -->
+      <div class="col-md-4 border-end border-light border-opacity-25">
+        <div class="d-flex align-items-center">
+          <div class="fs-1 me-3 text-info"></div> 
+          <div>
+            <h5 class="fw-bold mb-0">Parâmetros do Sistema</h5>
+            <small class="text-white-50">Regras aplicadas às matrículas</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="d-flex justify-content-around align-items-center text-center">
+          
+          <div>
+            <small class="text-uppercase text-white-50 fw-bold" style="font-size: 0.7rem;">Média Aprovação</small>
+            <div class="mt-1">
+              <span class="badge bg-primary fs-5 shadow-sm">{{ config.nota_minima_aprovacao }}</span>
+            </div>
+          </div>
+
+          <div>
+            <small class="text-uppercase text-white-50 fw-bold" style="font-size: 0.7rem;">Frequência Mínima</small>
+            <div class="mt-1">
+              <span class="badge bg-info text-dark fs-5 shadow-sm">{{ config.frequencia_minima }}%</span>
+            </div>
+          </div>
+
+          <div>
+            <small class="text-uppercase text-white-50 fw-bold" style="font-size: 0.7rem;">Limite Trancamento</small>
+            <div class="mt-1">
+              <span class="badge bg-dark border border-secondary fs-5 shadow-sm">{{ config.data_limite_trancamento }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-footer bg-dark border-0 py-2">
+    <small class="text-white-50 d-block text-center">
+      Para alterar estes valores, edite o arquivo <code class="text-info">settings.json</code> na raiz do projeto.
+    </small>
+  </div>
+</div>
+
+<!-- Tabela para listar matriculas--> 
 <th>Aluno</th>
 <th>Turma</th>
 <th>Nota</th>

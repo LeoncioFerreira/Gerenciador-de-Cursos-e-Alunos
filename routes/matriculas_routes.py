@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect
 from src.infra.persistencia import carregar_alunos, carregar_turmas, carregar_matriculas
+from src.infra import config
 from src.services.matricula_service import (
     servico_criar_matricula, 
     servico_atualizar_nota, 
@@ -25,7 +26,7 @@ matriculas_bp = Blueprint("matriculas", __name__)
 
 @matriculas_bp.route("/")
 def listar():
-    return render_template("matriculas/matriculas.html", matriculas=carregar_matriculas(),alunos=carregar_alunos())
+    return render_template("matriculas/matriculas.html", matriculas=carregar_matriculas(),alunos=carregar_alunos(),config=config)
 
 @matriculas_bp.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar():
