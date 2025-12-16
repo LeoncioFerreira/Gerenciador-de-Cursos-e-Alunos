@@ -22,7 +22,7 @@ O sistema contempla:
 * Lançamento de notas e frequência
 * Cálculo de situação acadêmica
 * Relatórios gerais (taxa de aprovação, top N alunos, etc.)
-
+---
 ## 📸 Screenshots da Aplicação
 
 A seguir estão algumas telas da aplicação em execução,
@@ -37,7 +37,7 @@ e relatórios gerenciais.
 
 ### Gestão de Matrículas
 ![Matrículas](screenshots/matriculas.png)
-
+---
 
 ## 🎯 Status do Desenvolvimento
 
@@ -88,11 +88,11 @@ O projeto possui **testes automatizados com pytest**, cobrindo:
 - Relatórios acadêmicos
 - Persistência em JSON
 
-➡️ Total de testes: **≥ 15**, conforme exigido no edital.
+➡️ Total de testes: **≥ 15**, conforme exigido no pdf.
 
 ---
 
-## 🧩 UML Textual (Modelo Final)
+## 🧩 UML Textual
 
 ### Classe: Pessoa
 - `nome`
@@ -273,9 +273,23 @@ Gerenciador-de-Cursos-e-Alunos/
 ├── README.md                     # Documentação do projeto
 ├── .flaskenv                     # Variáveis de ambiente do Flask
 └── LICENSE                       # Licença do projeto
-
-
 ```
+---
+## 🏗️ Arquitetura em Camadas
+
+A organização dos diretórios do projeto foi planejada seguindo o modelo de arquitetura em camadas, promovendo separação de responsabilidades e melhor manutenção do código.
+---
+Interface: `routes/`, `templates/`, `static/`
+
+Serviços (Regras de Negócio): `src/services/`
+
+Domínio (Modelo): `src/models/`
+
+Infraestrutura: `src/infra/`
+
+Testes: `tests/`
+
+---
 ## 🚀 Como Executar o Projeto
 
 A seguir estão as instruções completas para instalar dependências, ativar ambiente virtual e executar os testes automatizados do projeto.
@@ -327,4 +341,3 @@ flask run
 Após a execução, a aplicação estará disponível em:
 ```bash
 http://127.0.0.1:5000
-```
