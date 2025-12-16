@@ -43,15 +43,15 @@ def matricular(aluno: Aluno, turma: Turma):
     
     # Valida Status da Turma
     if turma.status != "ABERTA": 
-        raise TurmaFechadaError()
+        raise TurmaFechadaError("ERRO: Esta turma está FECHADA e não aceita matrículas.")
 
     # # Se turma não tiver vaga retorna o erro de turma fechada
     if not turma.tem_vaga(): 
-        raise TurmaLotadaError()
+        raise TurmaLotadaError(f"ERRO: Turma lotada! Vagas: {turma.vagas}")
 
     #  Se turma tiver um choque de horário a se matricula na turma retorna o erro de Choque de horário
     if aluno.tem_choque(turma): 
-        raise ChoqueHorarioError()
+        raise ChoqueHorarioError("ERRO: Choque de Horário! O aluno já tem aula neste período.")
 
     # Criar matrícula
     m = Matricula(aluno, turma) 

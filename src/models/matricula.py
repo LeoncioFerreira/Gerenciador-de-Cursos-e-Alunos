@@ -49,7 +49,7 @@ Responsabilidades:
     def nota(self, valor):
         if valor is not None:
             try:
-                # --- CORREÇÃO: Força virar número antes de comparar ---
+                # Força virar número antes de comparar
                 valor_float = float(valor)
             except ValueError:
                 raise ValueError("A nota deve ser um número válido.")
@@ -68,7 +68,7 @@ Responsabilidades:
     def frequencia(self, valor):
         if valor is not None:
             try:
-                # --- CORREÇÃO: Força virar número antes de comparar ---
+                # Força virar número antes de comparar
                 valor_float = float(valor)
             except ValueError:
                 raise ValueError("A frequência deve ser um número válido.")
@@ -81,12 +81,17 @@ Responsabilidades:
             self.__frequencia = None
 
     def situacao(self):
-        if self.nota is None or self.frequencia is None:
-            return "CURSANDO"
-        
-        if self.frequencia < config.frequencia_minima:
+        #Verifica Reprovação por Frequência
+        # Se já tem frequência lançada e é baixa, reprova na hora, 
+        # mesmo sem ter nota.
+        if self.frequencia is not None and self.frequencia < config.frequencia_minima:
             return "REPROVADO_POR_FREQUENCIA"
 
+        # Se a frequência está boa (ou vazia), verifica se falta algum dado
+        if self.nota is None or self.frequencia is None:
+            return "CURSANDO"
+
+        # Se tem tudo e frequência ok verifica a nota
         if self.nota < config.nota_minima_aprovacao:
             return "REPROVADO_POR_NOTA"
 
